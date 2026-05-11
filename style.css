@@ -1,0 +1,704 @@
+/* ============================================
+   VARIABEL WARNA
+   Ganti nilai di bawah ini sesuai keinginan
+   ============================================ */
+:root {
+    /* --- WARNA UTAMA --- */
+    --primary: #1B2A4A;          /* Biru navy */
+    --secondary: #2EC4B6;        /* Tosca */
+    --accent: #4682B4;           /* Steel blue */
+
+    /* --- BACKGROUND --- */
+    --bg-main: #2C3E6B;          /* Denim */
+    --bg-section: #1B2A4A;       /* Sama seperti primary */
+    --bg-card: rgba(255, 255, 255, 0.08); /* Abu muda transparan */
+    --bg-alt: #162040;           /* Warna gelap untuk section alternatif */
+
+    /* --- TEKS --- */
+    --text-primary: #FFFFFF;     /* Putih */
+    --text-secondary: #A8C8E8;   /* Light blue */
+    --text-muted: #8899B3;
+
+    /* --- LAINNYA --- */
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --radius: 12px;
+    --transition: 0.3s ease;
+
+    /* --- UKURAN --- */
+    --max-width: 1100px;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Kelas helper untuk tulisan berwarna accent */
+.dot {
+    color: var(--secondary);
+}
+
+/* ============================================
+   TOMBOL
+   ============================================ */
+.btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition);
+    border: none;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--secondary);
+    color: var(--primary);
+}
+
+.btn-primary:hover {
+    background: #26a89c;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(46, 196, 182, 0.3);
+}
+
+.btn-lg {
+    padding: 18px 48px;
+    font-size: 1.15rem;
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(27, 42, 74, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 16px 0;
+}
+
+.navbar-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 8px;
+}
+
+.nav-link {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all var(--transition);
+}
+
+.nav-link:hover {
+    color: var(--text-primary);
+    background: var(--bg-card);
+}
+
+/* Hamburger button */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.hamburger span {
+    display: block;
+    width: 24px;
+    height: 2.5px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: all var(--transition);
+}
+
+/* Hamburger animasi saat aktif */
+.hamburger.active span:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+    background: linear-gradient(135deg, var(--bg-main) 0%, var(--bg-section) 100%);
+}
+
+.hero-flex {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.hero-text {
+    flex: 1;
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--secondary);
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+}
+
+.hero-tagline {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.hero-desc {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    max-width: 480px;
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-img {
+    max-width: 420px;
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+/* ============================================
+   SECTION UMUM
+   ============================================ */
+.section {
+    padding: 100px 0;
+}
+
+.section-alt {
+    background: var(--bg-alt);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.3;
+    margin-bottom: 20px;
+}
+
+.section-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* ============================================
+   CARD GRID (Masalah & Fitur)
+   ============================================ */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.card-grid-2x2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    transition: all var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+    border-color: rgba(46, 196, 182, 0.3);
+}
+
+.card-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(46, 196, 182, 0.1);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    color: var(--secondary);
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* ============================================
+   SOLUSI SECTION
+   ============================================ */
+.solusi-flex {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+
+.solusi-text {
+    flex: 1;
+}
+
+.solusi-subtitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--secondary);
+    margin-bottom: 12px;
+    margin-top: 28px;
+}
+
+.solusi-subtitle:first-child {
+    margin-top: 0;
+}
+
+.solusi-desc {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 8px;
+}
+
+.manfaat-list {
+    list-style: none;
+    padding: 0;
+}
+
+.manfaat-list li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.manfaat-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 8px;
+    height: 8px;
+    background: var(--secondary);
+    border-radius: 50%;
+}
+
+.solusi-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.solusi-img {
+    max-width: 400px;
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+/* ============================================
+   AKSES / DEMO SECTION
+   ============================================ */
+.section-akses {
+    padding: 100px 0;
+}
+
+.akses-box {
+    text-align: center;
+    padding: 70px 40px;
+    background: linear-gradient(135deg, rgba(46, 196, 182, 0.15) 0%, rgba(70, 130, 180, 0.15) 100%);
+    border: 1px solid rgba(46, 196, 182, 0.25);
+    border-radius: 20px;
+}
+
+.akses-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.akses-desc {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 36px;
+}
+
+/* ============================================
+   TIM SECTION
+   ============================================ */
+.tim-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.tim-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 36px 24px;
+    text-align: center;
+    transition: all var(--transition);
+}
+
+.tim-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+    border-color: rgba(46, 196, 182, 0.3);
+}
+
+.tim-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    overflow: hidden;
+    border: 3px solid var(--secondary);
+}
+
+.tim-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tim-name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.tim-role {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    font-weight: 500;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-alt);
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.footer-brand {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.footer-info {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.footer-tagline {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* ============================================
+   GAMBAR FALLBACK
+   Jika gambar gagal dimuat, tampilkan ini
+   ============================================ */
+.img-fallback {
+    width: 100%;
+    min-height: 200px;
+    background: var(--bg-card);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.img-fallback-circle {
+    width: 100%;
+    height: 100%;
+    min-height: unset;
+    border-radius: 50%;
+}
+
+/* ============================================
+   ANIMASI SCROLL
+   Elemen akan muncul saat discroll
+   ============================================ */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.animate-on-scroll.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================================
+   RESPONSIVE - TABLET
+   ============================================ */
+@media (max-width: 900px) {
+    .hero-flex {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-desc {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-title {
+        font-size: 2.8rem;
+    }
+
+    .solusi-flex {
+        flex-direction: column;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card-grid-2x2 {
+        grid-template-columns: 1fr;
+    }
+
+    .tim-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ============================================
+   RESPONSIVE - MOBILE
+   ============================================ */
+@media (max-width: 640px) {
+    /* Navbar mobile */
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 260px;
+        height: 100vh;
+        background: var(--bg-section);
+        flex-direction: column;
+        padding: 80px 24px 40px;
+        gap: 4px;
+        border-left: 1px solid var(--border-color);
+        transition: right var(--transition);
+        z-index: 999;
+    }
+
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 14px 16px;
+        font-size: 1rem;
+        border-radius: 10px;
+    }
+
+    /* Hero mobile */
+    .hero {
+        padding-top: 70px;
+        min-height: auto;
+        padding-bottom: 50px;
+    }
+
+    .hero-title {
+        font-size: 2.2rem;
+    }
+
+    .hero-tagline {
+        font-size: 1rem;
+    }
+
+    .hero-img {
+        max-width: 280px;
+    }
+
+    /* Section */
+    .section {
+        padding: 70px 0;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    /* Card grid mobile */
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tim-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .tim-card {
+        padding: 24px 16px;
+    }
+
+    .tim-photo {
+        width: 80px;
+        height: 80px;
+    }
+
+    /* Akses */
+    .akses-title {
+        font-size: 1.8rem;
+    }
+
+    .akses-box {
+        padding: 50px 20px;
+    }
+
+    .btn-lg {
+        padding: 16px 36px;
+        font-size: 1rem;
+    }
+
+    /* Solusi */
+    .solusi-img {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 420px) {
+    .tim-grid {
+        grid-template-columns: 1fr;
+    }
+}

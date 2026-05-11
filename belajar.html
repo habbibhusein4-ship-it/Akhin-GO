@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKHIN.GO - Materi Pembelajaran</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- CSS tambahan khusus halaman belajar -->
+    <style>
+        /* ============================================
+           LAYOUT HALAMAN BELAJAR
+           Sidebar di kiri, konten di kanan
+           ============================================ */
+        .lms-wrapper {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 72px;
+        }
+
+        /* --- SIDEBAR --- */
+        .lms-sidebar {
+            width: 290px;
+            min-width: 290px;
+            background: var(--bg-alt);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 0;
+            overflow-y: auto;
+            position: fixed;
+            top: 72px;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 20px;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-bab {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-bab-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition);
+            text-align: left;
+            font-family: inherit;
+        }
+
+        .sidebar-bab-btn:hover,
+        .sidebar-bab-btn.active {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        .sidebar-bab-btn.active {
+            border-left: 3px solid var(--secondary);
+        }
+
+        .sidebar-bab-btn .arrow {
+            font-size: 0.65rem;
+            transition: transform var(--transition);
+        }
+
+        .sidebar-bab-btn.active .arrow {
+            transform: rotate(90deg);
+        }
+
+        .sidebar-subbab {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+
+        .sidebar-subbab.open {
+            max-height: 600px;
+        }
+
+        .sidebar-subbab a {
+            display: block;
+            padding: 7px 20px 7px 44px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: all var(--transition);
+        }
+
+        .sidebar-subbab a:hover,
+        .sidebar-subbab a.active {
+            color: var(--secondary);
+            background: rgba(46, 196, 182, 0.05);
+        }
+
+        /* --- KONTEN UTAMA --- */
+        .lms-content {
+            flex: 1;
+            margin-left: 290px;
+            padding: 40px 48px;
+        }
+
+        .lms-header {
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .lms-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .lms-header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: opacity var(--transition);
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        /* Area konten bab */
+        .bab-section {
+            display: none;
+            animation: fadeInLMS 0.4s ease;
+        }
+
+        .bab-section.active {
+            display: block;
+        }
+
+        @keyframes fadeInLMS {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bab-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .bab-ringkasan {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border-left: 3px solid var(--secondary);
+            line-height: 1.8;
+        }
+
+        /* Sub-bab card */
+        .subbab-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            margin-bottom: 20px;
+            transition: all var(--transition);
+        }
+
+        .subbab-card:hover {
+            border-color: rgba(46, 196, 182, 0.2);
+        }
+
+        .subbab-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .subbab-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .subbab-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.85;
+            margin-bottom: 14px;
+        }
+
+        /* Sub-judul di dalam konten */
+        .sub-heading {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 24px 0 10px;
+            padding-left: 12px;
+            border-left: 3px solid var(--accent);
+        }
+
+        /* List poin materi */
+        .materi-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 14px;
+        }
+
+        .materi-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+            font-size: 0.93rem;
+            line-height: 1.75;
+        }
+
+        .materi-list li::before {
+            content: '\276F';
+            position: absolute;
+            left: 2px;
+            color: var(--secondary);
+            font-size: 0.8rem;
+        }
+
+        /* Numbered list */
+        .materi-list-num {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 14px;
+            counter-reset: item;
+        }
+
+        .materi-list-num li {
+            position: relative;
+            padding-left: 32px;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+            font-size: 0.93rem;
+            line-height: 1.75;
+            counter-increment: item;
+        }
+
+        .materi-list-num li::before {
+            content: counter(item) ".";
+            position: absolute;
+            left: 4px;
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Kutipan Al-Qur'an / Hadis */
+        .dalil-box {
+            background: rgba(46, 196, 182, 0.08);
+            border: 1px solid rgba(46, 196, 182, 0.2);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin: 16px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.93rem;
+            line-height: 1.85;
+        }
+
+        .dalil-box .dalil-label {
+            display: block;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        /* Highlight text */
+        .highlight {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        /* Gambar di dalam materi */
+        .materi-img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: var(--radius);
+            margin: 16px 0;
+            box-shadow: var(--shadow);
+        }
+
+        /* Area embed / iframe */
+        .embed-area {
+            width: 100%;
+            margin: 16px 0;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .embed-area iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            display: block;
+        }
+
+        /* Link eksternal */
+        .ext-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(46, 196, 182, 0.1);
+            border: 1px solid rgba(46, 196, 182, 0.25);
+            border-radius: 8px;
+            color: var(--secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all var(--transition);
+            margin: 8px 8px 8px 0;
+        }
+
+        .ext-link:hover {
+            background: rgba(46, 196, 182, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Placeholder konten */
+        .placeholder-box {
+            padding: 24px;
+            background: rgba(70, 130, 180, 0.08);
+            border: 1px dashed rgba(70, 130, 180, 0.3);
+            border-radius: var(--radius);
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* Box kesimpulan */
+        .kesimpulan-box {
+            background: rgba(46, 196, 182, 0.06);
+            border: 1px solid rgba(46, 196, 182, 0.15);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            margin-top: 28px;
+        }
+
+        .kesimpulan-box .subbab-title {
+            margin-bottom: 12px;
+        }
+
+        .kesimpulan-box .subbab-text {
+            margin-bottom: 0;
+        }
+
+        /* Tombol toggle sidebar mobile */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: var(--primary);
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            z-index: 200;
+            box-shadow: 0 4px 16px rgba(46, 196, 182, 0.4);
+            transition: all var(--transition);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        /* Separator garis tipis */
+        .separator {
+            height: 1px;
+            background: var(--border-color);
+            margin: 28px 0;
+        }
+
+        /* ============================================
+           RESPONSIVE - HALAMAN BELAJAR
+           ============================================ */
+        @media (max-width: 768px) {
+            .sidebar-toggle {
+                display: flex;
+            }
+
+            .lms-sidebar {
+                transform: translateX(-100%);
+                transition: transform var(--transition);
+                z-index: 150;
+            }
+
+            .lms-sidebar.open {
+                transform: translateX(0);
+            }
+
+            .lms-content {
+                margin-left: 0;
+                padding: 24px 16px;
+            }
+
+            .lms-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .subbab-card {
+                padding: 20px 18px;
+            }
+
+            .bab-title {
+                font-size: 1.25rem;
+            }
+
+            .subbab-title {
+                font-size: 1.05rem;
+            }
+
+            .embed-area iframe {
+                height: 250px;
+            }
+
+            .dalil-box {
+                padding: 16px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">AKHIN<span class="dot">.GO</span></a>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Beranda</a></li>
+                <li><a href="index.html#masalah" class="nav-link">Masalah</a></li>
+                <li><a href="index.html#solusi" class="nav-link">Solusi</a></li>
+                <li><a href="index.html#fitur" class="nav-link">Fitur</a></li>
+                <li><a href="belajar.html" class="nav-link active">Akses</a></li>
+                <li><a href="index.html#tim" class="nav-link">Tim</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Tombol toggle sidebar (mobile) -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Buka menu bab">&#9776;</button>
+
+    <!-- ========== LAYOUT LMS ========== -->
+    <div class="lms-wrapper">
+
+        <!-- SIDEBAR: Daftar Bab -->
+        <aside class="lms-sidebar" id="lmsSidebar">
+            <p class="sidebar-title">Daftar Bab</p>
+
+            <!-- Bab 1 -->
+            <div class="sidebar-bab">
+                <button class="sidebar-bab-btn active" data-bab="bab1">
+                    <span>Bab 1: Adab di Rumah</span>
+                    <span class="arrow">&#9654;</span>
+                </button>
+                <div class="sidebar-subbab open" id="sub-bab1">
+                    <a href="#" data-sub="bab1-sub1" class="active">1.1 Pendahuluan</a>
+                    <a href="#" data-sub="bab1-sub2">1.2 Birrul Walidain</a>
+                    <a href="#" data-sub="bab1-sub3">1.3 Adab terhadap Saudara</a>
+                    <a href="#" data-sub="bab1-sub4">1.4 Video Animasi</a>
+                    <a href="#" data-sub="bab1-sub5">1.5 Kuis Interaktif</a>
+                </div>
+            </div>
+
+            <!-- Bab 2 -->
+            <div class="sidebar-bab">
+                <button class="sidebar-bab-btn" data-bab="bab2">
+                    <span>Bab 2: Adab di Sekolah</span>
+                    <span class="arrow">&#9654;</span>
+                </button>
+                <div class="sidebar-subbab" id="sub-bab2">
+                    <a href="#" data-sub="bab2-sub1">2.1 Pendahuluan</a>
+                    <a href="#" data-sub="bab2-sub2">2.2 Menghormati Guru</a>
+                    <a href="#" data-sub="bab2-sub3">2.3 Menyayangi Teman</a>
+                    <a href="#" data-sub="bab2-sub4">2.4 Video Skenario</a>
+                    <a href="#" data-sub="bab2-sub5">2.5 Game Edukatif</a>
+                </div>
+            </div>
+
+            <!-- Bab 3 -->
+            <div class="sidebar-bab">
+                <button class="sidebar-bab-btn" data-bab="bab3">
+                    <span>Bab 3: Adab Lingkungan</span>
+                    <span class="arrow">&#9654;</span>
+                </button>
+                <div class="sidebar-subbab" id="sub-bab3">
+                    <a href="#" data-sub="bab3-sub1">3.1 Pendahuluan</a>
+                    <a href="#" data-sub="bab3-sub2">3.2 Menjaga Kebersihan</a>
+                    <a href="#" data-sub="bab3-sub3">3.3 Menyayangi Makhluk Hidup</a>
+                    <a href="#" data-sub="bab3-sub4">3.4 Video Inspiratif</a>
+                    <a href="#" data-sub="bab3-sub5">3.5 Evaluasi Akhir</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- KONTEN UTAMA -->
+        <main class="lms-content">
+
+            <a href="index.html" class="back-link">&larr; Kembali ke Beranda</a>
+            <div class="lms-header">
+                <h1>MATERI PEMBELAJARAN</h1>
+                <p>Belajar akhlak dengan cara yang interaktif dan menyenangkan bersama AKHIN.GO</p>
+            </div>
+
+            <!-- ================================
+                 BAB 1: ADAB DI RUMAH
+                 ================================ -->
+            <div class="bab-section active" id="bab1">
+                <h2 class="bab-title">BAB I &mdash; Adab di Rumah</h2>
+                <div class="bab-ringkasan">
+                    Membangun pondasi karakter akhlak mulia sejak dini melalui pembiasaan bakti kepada orang tua dan harmoni dalam keluarga.
+                </div>
+
+                <!-- Gambar -->
+                <img
+                    src="https://i.ibb.co.com/VYz8pNzp/Gemini-Generated-Image-63eyvz63eyvz63ey.png"
+                    alt="foto anak muslim muslimah"
+                    class="materi-img"
+                    onerror="this.outerHTML='<div class=\'placeholder-box\'>Gambar materi belum ditambahkan</div>'"
+                >
+
+                <!-- ===== Sub-bab 1.1: Pendahuluan ===== -->
+                <div class="subbab-card" id="bab1-sub1">
+                    <p class="subbab-label">Subbab 1.1</p>
+                    <h3 class="subbab-title">Pendahuluan</h3>
+                    <p class="subbab-text">
+                        Rumah adalah tempat pertama kita belajar kasih sayang. Sebagai seorang Muslim, perilaku kita di rumah mencerminkan kualitas iman kita. Rasulullah SAW bersabda bahwa sebaik-baik kalian adalah yang paling baik akhlaknya terhadap keluarganya. Dengan menjaga adab, rumah akan terasa damai dan penuh keberkahan dari Allah SWT.
+                    </p>
+                    <p class="subbab-text">
+                        Perintah bersuci terdapat dalam Al-Qur'an dan hadis. Salah satunya terdapat dalam <span class="highlight">QS. Al-Ma'idah ayat 6</span> yang menjelaskan tentang perintah berwudhu sebelum shalat. Selain itu, Allah juga berfirman dalam <span class="highlight">QS. Al-Baqarah ayat 222</span> bahwa Allah menyukai orang-orang yang bertaubat dan menyucikan diri.
+                    </p>
+                    <p class="subbab-text">
+                        Dalam hadis juga dijelaskan bahwa kesucian merupakan bagian penting dari keimanan. Hal ini menunjukkan bahwa Islam sangat memperhatikan kebersihan lahir dan batin.
+                    </p>
+                </div>
+
+                <!-- ===== Sub-bab 1.2: Birrul Walidain ===== -->
+                <div class="subbab-card" id="bab1-sub2">
+                    <p class="subbab-label">Subbab 1.2</p>
+                    <h3 class="subbab-title">Adab kepada Orang Tua (Birrul Walidain)</h3>
+                    <p class="subbab-text">
+                        Birrul Walidain adalah berbakti kepada kedua orang tua. Allah SWT menempatkan perintah berbakti kepada orang tua tepat setelah perintah untuk menyembah-Nya. Hal ini menunjukkan betapa mulianya posisi orang tua dalam Islam. Berbakti bukan hanya kewajiban, tapi <span class="highlight">kunci utama untuk meraih ridha Allah dan kunci menuju surga</span>.
+                    </p>
+
+                    <!-- Dalil Al-Qur'an -->
+                    <div class="dalil-box">
+                        <span class="dalil-label">Dalil &mdash; QS. Al-Isra' ayat 23</span>
+                        "Dan Tuhanmu telah memerintahkan agar kamu jangan menyembah selain Dia dan hendaklah berbuat baik kepada ibu bapak. Jika salah seorang di antara keduanya atau kedua-duanya sampai berusia lanjut dalam pemeliharaanmu, maka sekali-kali janganlah engkau mengatakan kepada keduanya perkataan 'ah' dan janganlah engkau membentak keduanya, dan ucapkanlah kepada keduanya perkataan yang baik."
+                    </div>
+
+                    <!-- Lisan Yang Santun -->
+                    <h4 class="sub-heading">Lisan Yang Santun, Hati yang Sejuk</h4>
+                    <p class="subbab-text">Penerapan lisan yang santun kepada orang tua meliputi:</p>
+                    <ul class="materi-list-num">
+                        <li>Selalu menjawab dengan suara rendah dan tenang saat dipanggil.</li>
+                        <li>Membiasakan 3 kata ajaib: <span class="highlight">"Tolong"</span> saat meminta sesuatu, <span class="highlight">"Maaf"</span> jika berbuat salah, dan <span class="highlight">"Terima Kasih"</span> atas segala pengorbanan mereka.</li>
+                        <li>Mendengarkan dengan seksama saat mereka berbicara tanpa memotong pembicaraan.</li>
+                    </ul>
+
+                    <!-- Ringan Tangan Membantu -->
+                    <h4 class="sub-heading">Ringan Tangan Membantu di Rumah</h4>
+                    <p class="subbab-text">
+                        Membantu orang tua tidak harus melakukan pekerjaan yang berat. Bentuk bakti nyata bisa dimulai dari hal-hal kecil di sekitar kita. Tindakan ini adalah cara kita berterima kasih atas lelahnya Ayah mencari nafkah dan Bunda yang mengurus rumah.
+                    </p>
+                    <p class="subbab-text"><strong>Contoh aksi nyata penerapan di rumah:</strong></p>
+                    <ul class="materi-list-num">
+                        <li>Merapikan tempat tidur sendiri setiap pagi tanpa disuruh.</li>
+                        <li>Membawa piring kotor ke dapur setelah selesai makan.</li>
+                        <li>Menjaga kebersihan kamar dan membantu menyapu lantai.</li>
+                    </ul>
+                </div>
+
+                <!-- ===== Sub-bab 1.3: Adab Terhadap Saudara ===== -->
+                <div class="subbab-card" id="bab1-sub3">
+                    <p class="subbab-label">Subbab 1.3</p>
+                    <h3 class="subbab-title">Adab Terhadap Saudara</h3>
+                    <p class="subbab-text">
+                        Saudara adalah teman terdekat kita di rumah. Rasulullah SAW mengajarkan bahwa seorang Muslim sejati harus memiliki rasa kasih sayang. Hidup rukun dengan saudara akan membuat orang tua merasa bahagia dan bangga.
+                    </p>
+
+                    <!-- 1.3.1 Adab Terhadap Saudara -->
+                    <h4 class="sub-heading">Saling Menjaga dan Menyayangi</h4>
+                    <ul class="materi-list-num">
+                        <li><strong>Menyayangi Adik:</strong> Tunjukkan kasih sayang dan tanggung jawab sebagai kakak yang baik.</li>
+                        <li><strong>Menghormati Kakak:</strong> Ajarkan hierarki sosial dan rasa hormat kepada yang lebih tua.</li>
+                        <li><strong>Tidak Bertengkar:</strong> Hindari pertengkaran dan selesaikan konflik secara baik-baik.</li>
+                    </ul>
+
+                    <!-- 1.3.2 Berbagi dan Peduli -->
+                    <h4 class="sub-heading">Berbagi dan Peduli pada Saudara</h4>
+                    <ul class="materi-list-num">
+                        <li><strong>Saling Meminjamkan Barang:</strong> Kakak dan adik yang baik tidak pelit. Jika adik ingin meminjam mainan atau alat tulis, pinjamkanlah dengan ikhlas.</li>
+                        <li><strong>Berbagi Makanan:</strong> Jika punya camilan atau makanan ringan, biasakan untuk membaginya sama rata dengan saudara di rumah.</li>
+                        <li><strong>Saling Menolong:</strong> Saat kakak sedang kesulitan merapikan tempat tidur, adik bisa ikut membantu. Begitu juga kakak, bisa membantu mengajari adik saat ada PR sekolah yang sulit.</li>
+                    </ul>
+
+                    <!-- 1.3.3 Menjaga Lisan -->
+                    <h4 class="sub-heading">Menjaga Lisan Sesama Saudara</h4>
+                    <ul class="materi-list-num">
+                        <li><strong>Gunakan Panggilan Hormat:</strong> Biasakan memanggil kakak dengan sebutan yang sopan (seperti Kakak, Mas, atau Teteh), bukan memanggil namanya secara langsung.</li>
+                        <li><strong>Panggilan Kesayangan untuk Adik:</strong> Panggillah adik dengan sebutan yang baik dan lembut, hindari memberikan julukan yang jelek atau mengejek fisiknya.</li>
+                        <li><strong>Bicara Tanpa Teriak:</strong> Sama seperti adab kepada orang tua, berbicara dengan saudara juga harus menggunakan nada yang tenang dan tidak saling membentak.</li>
+                    </ul>
+
+                    <!-- 1.3.4 Menyelesaikan Masalah -->
+                    <h4 class="sub-heading">Menyelesaikan Masalah</h4>
+                    <ul class="materi-list-num">
+                        <li><strong>Jadilah Pemberani:</strong> Jika kamu tidak sengaja merusak mainan saudara atau membuatnya sedih, jadilah pemberani dengan langsung meminta maaf.</li>
+                        <li><strong>Lapang Dada:</strong> Jika saudaramu berbuat salah dan sudah meminta maaf, maafkanlah dengan ikhlas tanpa menyimpan dendam. Allah sangat menyayangi anak yang pemaaf!</li>
+                        <li><strong>Menutupi Kesalahan:</strong> Jangan menertawakan atau mengejek kesalahan saudara di depan teman-teman. Kita harus saling melindungi.</li>
+                    </ul>
+                </div>
+
+                <!-- ===== Sub-bab 1.4: Video Animasi ===== -->
+                <div class="subbab-card" id="bab1-sub4">
+                    <p class="subbab-label">Subbab 1.4</p>
+                    <h3 class="subbab-title">Video Animasi</h3>
+                    <p class="subbab-text">
+                        Animasi singkat tentang seorang anak yang langsung merespons saat dipanggil ibu dengan sopan. Tonton video berikut untuk melihat contoh penerapan adab kepada orang tua dalam kehidupan sehari-hari.
+                    </p>
+                    <div class="placeholder-box">
+                        Video animasi akan di-embed di sini menggunakan tag &lt;video&gt; atau &lt;iframe&gt;.
+                    </div>
+                </div>
+
+                <!-- ===== Sub-bab 1.5: Kuis Interaktif ===== -->
+                <div class="subbab-card" id="bab1-sub5">
+                    <p class="subbab-label">Subbab 1.5</p>
+                    <h3 class="subbab-title">Kuis Interaktif</h3>
+                    <p class="subbab-text">
+                        "Pilih Sikap yang Benar" saat diminta bantuan oleh ayah. Uji pemahamanmu tentang adab di rumah melalui kuis berikut!
+                    </p>
+                    <div class="placeholder-box">
+                        Kuis interaktif akan ditambahkan di sini. Bisa berupa HTML form, iframe, atau JavaScript sederhana.
+                    </div>
+                </div>
+
+                <!-- Kesimpulan Bab 1 -->
+                <div class="kesimpulan-box">
+                    <h3 class="subbab-title">Kesimpulan Bab I</h3>
+                    <p class="subbab-text">
+                        Adab adalah hiasan seorang Muslim. Mari kita mulai mempraktikkan Birrul Walidain dan kasih sayang kepada saudara mulai detik ini. Ingatlah, kebahagiaan di dunia dan akhirat bermula dari bagaimana kita bersikap di dalam rumah kita sendiri.
+                    </p>
+                </div>
+            </div>
+
+
+            <!-- ================================
+                 BAB 2: ADAB DI SEKOLAH
+                 ================================ -->
+            <div class="bab-section" id="bab2">
+                <h2 class="bab-title">BAB II &mdash; Adab di Sekolah</h2>
+                <div class="bab-ringkasan">
+                    Fokus pada pengembangan kecerdasan sosial, empati terhadap teman sebaya, serta tata krama dan rasa hormat kepada pendidik.
+                </div>
+
+                <!-- ===== Sub-bab 2.1: Pendahuluan ===== -->
+                <div class="subbab-card" id="bab2-sub1">
+                    <p class="subbab-label">Subbab 2.1</p>
+                    <h3 class="subbab-title">Pendahuluan</h3>
+                    <p class="subbab-text">
+                        Sekolah adalah tempat kita menuntut ilmu dan bertemu dengan banyak orang. Di sekolah, guru adalah pengganti orang tua kita, dan teman-teman adalah saudara kita. Oleh karena itu, Islam mengajarkan kita untuk selalu menjaga adab, sopan santun, dan kasih sayang selama berada di lingkungan sekolah agar ilmu yang kita dapatkan menjadi berkah dan bermanfaat.
+                    </p>
+                </div>
+
+                <!-- ===== Sub-bab 2.2: Menghormati Guru ===== -->
+                <div class="subbab-card" id="bab2-sub2">
+                    <p class="subbab-label">Subbab 2.2</p>
+                    <h3 class="subbab-title">Adab Menghormati Guru</h3>
+                    <p class="subbab-text">
+                        Guru adalah pahlawan tanpa tanda jasa yang dengan sabar mendidik dan memberikan ilmu kepada kita. Menghormati guru adalah kunci sukses seorang murid. Berikut adalah adab yang harus dipraktikkan:
+                    </p>
+
+                    <!-- Mengucapkan Salam -->
+                    <h4 class="sub-heading">Mengucapkan Salam Saat Bertemu</h4>
+                    <p class="subbab-text">
+                        Sebagai anak Muslim yang baik, biasakanlah untuk menyapa guru terlebih dahulu.
+                    </p>
+                    <ul class="materi-list-num">
+                        <li><strong>Praktik Nyata:</strong> Ucapkan "Assalamu'alaikum, Bapak/Ibu Guru" sambil tersenyum saat berpapasan di gerbang sekolah, di lorong kelas, atau saat masuk ke ruang guru. Salam adalah doa keselamatan yang sangat disukai oleh Allah SWT.</li>
+                        <li><strong>Sikap Tubuh:</strong> Saat bersalaman (jika memungkinkan dan sesama mahram/sesuai aturan sekolah), ciumlah punggung tangan guru dengan sopan, bukan menempelkannya di dahi atau pipi.</li>
+                    </ul>
+
+                    <!-- Memperhatikan Penjelasan -->
+                    <h4 class="sub-heading">Memperhatikan Penjelasan Di Kelas</h4>
+                    <p class="subbab-text">
+                        Adab menuntut ilmu yang paling utama adalah mendengarkan orang yang sedang berbicara.
+                    </p>
+                    <ul class="materi-list-num">
+                        <li><strong>Fokus dan Tenang:</strong> Saat Bapak/Ibu Guru sedang menjelaskan pelajaran di depan kelas, duduklah dengan rapi dan perhatikan baik-baik.</li>
+                        <li><strong>Hindari Mengobrol:</strong> Jangan asyik mengobrol sendiri atau bermain dengan teman sebangku saat guru sedang berbicara. Jika ingin bertanya atau izin ke toilet, angkat tangan kananmu terlebih dahulu dan bicaralah dengan nada yang sopan.</li>
+                    </ul>
+
+                    <div class="dalil-box">
+                        <span class="dalil-label">Catatan Penting</span>
+                        Cara menyucikan hadas besar adalah dengan mandi wajib. Jika tidak memungkinkan menggunakan air, maka dapat diganti dengan tayamum sesuai ketentuan syariat.
+                    </div>
+                </div>
+
+                <!-- ===== Sub-bab 2.3: Menyayangi Teman ===== -->
+                <div class="subbab-card" id="bab2-sub3">
+                    <p class="subbab-label">Subbab 2.3</p>
+                    <h3 class="subbab-title">Adab Menyayangi Teman</h3>
+                    <p class="subbab-text">
+                        Teman yang baik akan membawa kita pada kebaikan. Islam melarang kita untuk saling menyakiti, dan justru menyuruh kita untuk saling menebar kasih sayang sesama teman di sekolah.
+                    </p>
+
+                    <!-- Tidak Mengejek Teman -->
+                    <h4 class="sub-heading">Tidak Mengejek Teman</h4>
+                    <p class="subbab-text">
+                        Setiap manusia diciptakan oleh Allah dengan kelebihan dan kekurangannya masing-masing.
+                    </p>
+                    <ul class="materi-list-num">
+                        <li><strong>Panggilan yang Baik:</strong> Panggillah temanmu dengan nama aslinya atau nama panggilan kesukaannya. Dilarang keras memberikan julukan yang buruk, mengejek fisik (body shaming), atau menertawakan teman yang sedang melakukan kesalahan.</li>
+                        <li><strong>Saling Memaafkan:</strong> Jika terjadi selisih paham saat bermain atau belajar kelompok, segeralah meminta maaf dan memaafkan.</li>
+                    </ul>
+
+                    <!-- Saling Berbagi -->
+                    <h4 class="sub-heading">Saling Berbagi</h4>
+                    <p class="subbab-text">
+                        Membangun rasa persaudaraan bisa dilakukan lewat hal-hal kecil.
+                    </p>
+                    <ul class="materi-list-num">
+                        <li><strong>Berbagi Bekal:</strong> Saat jam istirahat, jika kamu membawa makanan atau camilan lebih, tawarkanlah kepada teman di sebelahmu, terutama jika ia lupa membawa bekal.</li>
+                        <li><strong>Meminjamkan Alat Tulis:</strong> Jika ada teman yang kebingungan karena pensilnya patah atau penghapusnya tertinggal, jadilah pahlawan dengan meminjamkan alat tulismu kepadanya dengan ikhlas.</li>
+                    </ul>
+                </div>
+
+                <!-- ===== Sub-bab 2.4: Video Skenario ===== -->
+                <div class="subbab-card" id="bab2-sub4">
+                    <p class="subbab-label">Subbab 2.4</p>
+                    <h3 class="subbab-title">Video Skenario</h3>
+                    <p class="subbab-text">
+                        Skenario "Berbagi itu Indah" saat ada teman yang lupa membawa pensil. Tonton video berikut untuk melihat contoh nyata penerapan adab menyayangi teman di sekolah.
+                    </p>
+                    <div class="placeholder-box">
+                        Video skenario akan di-embed di sini.
+                    </div>
+                </div>
+
+                <!-- ===== Sub-bab 2.5: Game Edukatif ===== -->
+                <div class="subbab-card" id="bab2-sub5">
+                    <p class="subbab-label">Subbab 2.5</p>
+                    <h3 class="subbab-title">Game Edukatif</h3>
+                    <p class="subbab-text">
+                        Menjodohkan situasi di sekolah dengan perilaku adab yang sesuai. Mainkan game berikut untuk melatih kepekaan sosialmu!
+                    </p>
+                    <a href="https://gemini.google.com/share/3b38b37dcd6e" target="_blank" class="ext-link" rel="noopener noreferrer">
+                        &#127918; Buka Game Edukatif
+                    </a>
+                    <div class="placeholder-box" style="margin-top: 16px;">
+                        Game juga bisa di-embed langsung di halaman ini menggunakan iframe.
+                    </div>
+                </div>
+
+                <!-- Kesimpulan Bab 2 -->
+                <div class="kesimpulan-box">
+                    <h3 class="subbab-title">Kesimpulan Bab II</h3>
+                    <p class="subbab-text">
+                        Adab di sekolah sama pentingnya dengan adab di rumah. Menghormati guru akan membuat ilmu kita mudah diserap dan diberkahi oleh Allah SWT. Sementara itu, menyayangi teman akan menciptakan suasana belajar yang damai, ceria, dan menyenangkan.
+                    </p>
+                </div>
+            </div>
+
+
+            <!-- ================================
+                 BAB 3: ADAB LINGKUNGAN
+                 ================================ -->
+            <div class="bab-section" id="bab3">
+                <h2 class="bab-title">BAB III &mdash; Adab Lingkungan</h2>
+                <div class="bab-ringkasan">
+                    Menanamkan rasa tanggung jawab, kepedulian terhadap kebersihan, dan kasih sayang terhadap sesama makhluk ciptaan Allah.
+                </div>
+
+                <!-- ===== Sub-bab 3.1: Pendahuluan ===== -->
+                <div class="subbab-card" id="bab3-sub1">
+                    <p class="subbab-label">Subbab 3.1</p>
+                    <h3 class="subbab-title">Pendahuluan</h3>
+                    <p class="subbab-text">
+                        Tahukah kamu bahwa bumi yang indah ini adalah titipan dari Allah SWT? Sebagai seorang Muslim, kita diberi tugas istimewa untuk menjadi <span class="highlight">khalifah (penjaga) di bumi</span>. Menjaga alam tidak selalu harus dengan hal yang besar, karena menjaga alam bisa dimulai dari langkah kecil setiap hari, lho!
+                    </p>
+                </div>
+
+                <!-- ===== Sub-bab 3.2: Menjaga Kebersihan ===== -->
+                <div class="subbab-card" id="bab3-sub2">
+                    <p class="subbab-label">Subbab 3.2</p>
+                    <h3 class="subbab-title">Adab Menjaga Kebersihan</h3>
+                    <p class="subbab-text">
+                        Dalam Islam, menjaga kebersihan adalah hal yang sangat penting. Ingatlah bahwa <span class="highlight">kebersihan itu sebagian dari iman</span>. Artinya, anak Muslim yang beriman pasti tidak suka melihat tempat yang kotor dan berantakan!
+                    </p>
+
+                    <!-- Dalil -->
+                    <div class="dalil-box">
+                        <span class="dalil-label">Dalil &mdash; QS. Al-A'raf ayat 56</span>
+                        "Dan janganlah kamu membuat kerusakan di muka bumi setelah (Allah) memperbaikinya..."
+                    </div>
+
+                    <!-- Membuang Sampah -->
+                    <h4 class="sub-heading">Membuang Sampah pada Tempatnya</h4>
+                    <p class="subbab-text">Berikut adalah kebiasaan baik yang harus kita lakukan untuk menjaga kebersihan:</p>
+                    <ul class="materi-list-num">
+                        <li>Selesai jajan, pegang dulu bungkusnya sampai kamu menemukan tempat sampah.</li>
+                        <li>Jangan pernah melempar sampah ke selokan.</li>
+                        <li>Jangan menyembunyikan sampah di laci meja kelas.</li>
+                        <li>Ingatlah bahwa lingkungan yang bersih akan membuat kita bebas dari bau dan terhindar dari banjir.</li>
+                    </ul>
+
+                    <!-- Memungut Sampah -->
+                    <h4 class="sub-heading">Memungut Sampah yang Berserakan</h4>
+                    <p class="subbab-text">
+                        Jika kamu melihat sampah plastik di taman sekolah, beranikan diri untuk memungutnya, walaupun itu bukan sampahmu.
+                    </p>
+                    <div class="dalil-box">
+                        <span class="dalil-label">Tahukah Kamu?</span>
+                        Menyingkirkan sampah atau benda berbahaya dari jalanan adalah salah satu bentuk sedekah yang berpahala besar dari Allah!
+                    </div>
+
+                    <!-- Aksi Nyata -->
+                    <h4 class="sub-heading">Aksi Nyata Peduli Lingkungan</h4>
+                    <p class="subbab-text">Untuk menjadi penjaga bumi yang hebat, kita bisa memulainya dengan aksi nyata seperti:</p>
+                    <ul class="materi-list-num">
+                        <li>Menanam pohon di sekitar kita.</li>
+                        <li>Turut serta membersihkan lingkungan sekolah.</li>
+                        <li>Mengurangi penggunaan plastik dalam kegiatan sehari-hari.</li>
+                        <li>Mendaur ulang sampah menjadi barang yang berguna.</li>
+                        <li>Membiasakan diri menghemat air dan listrik di rumah maupun di sekolah.</li>
+                    </ul>
+
+                    <!-- Manfaat -->
+                    <h4 class="sub-heading">Manfaat Aksi Nyata</h4>
+                    <p class="subbab-text">Jika kita rutin melakukan aksi peduli lingkungan, kita akan mendapatkan banyak manfaat, di antaranya:</p>
+                    <ul class="materi-list-num">
+                        <li>Membantu mengurangi polusi.</li>
+                        <li>Menjaga kualitas udara agar tetap segar untuk dihirup.</li>
+                        <li>Menumbuhkan rasa tanggung jawab bersama dalam menjaga bumi.</li>
+                    </ul>
+                </div>
+
+                <!-- ===== Sub-bab 3.3: Menyayangi Makhluk Hidup ===== -->
+                <div class="subbab-card" id="bab3-sub3">
+                    <p class="subbab-label">Subbab 3.3</p>
+                    <h3 class="subbab-title">Adab Menyayangi Makhluk Hidup</h3>
+                    <p class="subbab-text">
+                        Bumi bukan cuma milik manusia. Hewan dan tumbuhan juga merupakan ciptaan Allah yang selalu bertasbih memuji-Nya. Oleh karena itu, Islam mengajarkan kasih sayang kepada semua makhluk ciptaan Allah SWT. Yuk, kita sayangi mereka dengan cara:
+                    </p>
+
+                    <h4 class="sub-heading">Tidak Menyakiti Hewan</h4>
+                    <p class="subbab-text">
+                        Sebagai anak Muslim yang penyayang, jangan pernah menyakiti hewan seperti kucing tanpa alasan yang dibenarkan oleh syariat.
+                    </p>
+
+                    <h4 class="sub-heading">Merawat Tanaman</h4>
+                    <p class="subbab-text">
+                        Rawatlah tanaman yang ada di sekitarmu untuk mendukung keberlanjutan lingkungan dan menjaga ekosistem.
+                    </p>
+                </div>
+
+                <!-- ===== Sub-bab 3.4: Video Inspiratif ===== -->
+                <div class="subbab-card" id="bab3-sub4">
+                    <p class="subbab-label">Subbab 3.4</p>
+                    <h3 class="subbab-title">Video Inspiratif</h3>
+                    <p class="subbab-text">
+                        Karakter utama yang menyelamatkan kucing jalanan atau menanam bunga di taman sekolah. Tonton video berikut untuk mendapatkan inspirasi tentang cara menyayangi makhluk hidup di sekitar kita.
+                    </p>
+                    <a href="https://drive.google.com/file/d/1sVtrCGP3nOKYI3hqmOPwYuAB-O8BHTOW/view?usp=drive_link" target="_blank" class="ext-link" rel="noopener noreferrer">
+                        &#127916; Tonton Video Inspiratif
+                    </a>
+                </div>
+
+                <!-- ===== Sub-bab 3.5: Evaluasi Akhir ===== -->
+                <div class="subbab-card" id="bab3-sub5">
+                    <p class="subbab-label">Subbab 3.5</p>
+                    <h3 class="subbab-title">Evaluasi Akhir</h3>
+                    <p class="subbab-text">
+                        Saatnya menguji pemahamanmu tentang seluruh materi adab lingkungan! Kerjakan game dan quiz berikut, lalu isi checklist "Aksi Adabku Hari Ini" untuk mempraktikkan materi di kehidupan nyata.
+                    </p>
+
+                    <div style="margin: 20px 0;">
+                        <a href="https://gemini.google.com/share/3b38b37dcd6e" target="_blank" class="ext-link" rel="noopener noreferrer">
+                            &#127918; Game Evaluasi
+                        </a>
+                        <a href="https://gemini.google.com/share/943173db3df1" target="_blank" class="ext-link" rel="noopener noreferrer">
+                            &#128221; Quiz Evaluasi
+                        </a>
+                    </div>
+
+                    <div class="separator"></div>
+
+                    <!-- Checklist Aksi Adabku -->
+                    <h4 class="sub-heading">Checklist "Aksi Adabku Hari Ini"</h4>
+                    <p class="subbab-text">Tandai aksi yang sudah kamu lakukan hari ini:</p>
+                    <ul class="materi-list" style="margin-bottom: 0;">
+                        <li>
+                            <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" style="width: 18px; height: 18px; accent-color: #2EC4B6;">
+                                <span>Membuang sampah pada tempatnya</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" style="width: 18px; height: 18px; accent-color: #2EC4B6;">
+                                <span>Memungut sampah yang berserakan</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" style="width: 18px; height: 18px; accent-color: #2EC4B6;">
+                                <span>Tidak menyakiti hewan</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" style="width: 18px; height: 18px; accent-color: #2EC4B6;">
+                                <span>Menyiram tanaman</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label style="cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" style="width: 18px; height: 18px; accent-color: #2EC4B6;">
+                                <span>Menghemat air dan listrik</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Penutup Bab 3 -->
+                <div class="kesimpulan-box">
+                    <h3 class="subbab-title">Penutup</h3>
+                    <p class="subbab-text">
+                        Pesan penting untuk semua anak hebat: <span class="highlight">Aksi kecil yang kita lakukan setiap hari dapat membawa perubahan besar bagi lingkungan dan kehidupan kita</span>. Teruslah berbuat baik kepada alam, agar alam juga memberikan kebaikannya untuk kita!
+                    </p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Script utama + script khusus halaman belajar -->
+    <script src="script.js"></script>
+    <script>
+        /* ============================================
+           JAVASCRIPT KHUSUS HALAMAN BELAJAR
+           Navigasi sidebar, toggle bab, dll.
+           ============================================ */
+
+        // --- 1. NAVIGASI BAB DI SIDEBAR ---
+        var babButtons = document.querySelectorAll('.sidebar-bab-btn');
+        var babSections = document.querySelectorAll('.bab-section');
+        var subbabLinks = document.querySelectorAll('.sidebar-subbab a');
+
+        babButtons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var targetBab = this.getAttribute('data-bab');
+
+                // Hapus class 'active' dari semua tombol bab
+                babButtons.forEach(function (b) { b.classList.remove('active'); });
+                this.classList.add('active');
+
+                // Tutup semua sub-bab
+                document.querySelectorAll('.sidebar-subbab').forEach(function (sub) {
+                    sub.classList.remove('open');
+                });
+                // Buka sub-bab yang sesuai
+                var targetSub = document.getElementById('sub-' + targetBab);
+                if (targetSub) {
+                    targetSub.classList.add('open');
+                }
+
+                // Tampilkan section bab yang sesuai
+                babSections.forEach(function (section) { section.classList.remove('active'); });
+                var targetSection = document.getElementById(targetBab);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+
+                // Scroll ke atas konten
+                document.querySelector('.lms-content').scrollTop = 0;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // Tutup sidebar di mobile
+                if (window.innerWidth <= 768) {
+                    document.getElementById('lmsSidebar').classList.remove('open');
+                }
+            });
+        });
+
+        // --- 2. KLIK SUB-BAB: SCROLL KE SUB-BAB YANG SESUAI ---
+        subbabLinks.forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                var targetId = this.getAttribute('data-sub');
+                var targetEl = document.getElementById(targetId);
+
+                // Hapus class 'active' dari semua link sub-bab
+                subbabLinks.forEach(function (l) { l.classList.remove('active'); });
+                this.classList.add('active');
+
+                // Scroll ke elemen sub-bab
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                // Tutup sidebar di mobile
+                if (window.innerWidth <= 768) {
+                    document.getElementById('lmsSidebar').classList.remove('open');
+                }
+            });
+        });
+
+        // --- 3. TOGGLE SIDEBAR DI MOBILE ---
+        var sidebarToggle = document.getElementById('sidebarToggle');
+        var lmsSidebar = document.getElementById('lmsSidebar');
+
+        if (sidebarToggle && lmsSidebar) {
+            sidebarToggle.addEventListener('click', function () {
+                lmsSidebar.classList.toggle('open');
+            });
+        }
+
+        // Tutup sidebar jika klik di luar (mobile)
+        document.addEventListener('click', function (e) {
+            if (window.innerWidth <= 768) {
+                if (!lmsSidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                    lmsSidebar.classList.remove('open');
+                }
+            }
+        });
+
+        // --- 4. HIGHLIGHT SUB-BAB YANG SEDANG DILIHAT ---
+        // Saat user scroll di area konten, highlight sub-bab yang sedang terlihat
+        var allSubbabCards = document.querySelectorAll('.subbab-card');
+
+        window.addEventListener('scroll', function () {
+            var scrollPos = window.scrollY + 150;
+
+            allSubbabCards.forEach(function (card) {
+                var cardTop = card.offsetTop;
+                var cardBottom = cardTop + card.offsetHeight;
+                var cardId = card.getAttribute('id');
+
+                if (scrollPos >= cardTop && scrollPos < cardBottom) {
+                    subbabLinks.forEach(function (l) { l.classList.remove('active'); });
+                    var activeLink = document.querySelector('.sidebar-subbab a[data-sub="' + cardId + '"]');
+                    if (activeLink) {
+                        activeLink.classList.add('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
