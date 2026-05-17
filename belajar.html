@@ -5,215 +5,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AKHIN.GO - Materi Pembelajaran</title>
   <link rel="stylesheet" href="style.css">
-
-  <!--
-    Style tambahan khusus halaman belajar
-    untuk elemen embed, tombol link, dan layout materi
-  -->
-  <style>
-    /* --- Container responsif untuk iframe (video & presentasi) --- */
-    .embed-container {
-      position: relative;
-      width: 100%;
-      height: 0;
-      padding-top: 56.25%; /* Rasio 16:9 */
-      margin-top: 16px;
-      margin-bottom: 16px;
-      overflow: hidden;
-      border-radius: 8px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
-    }
-
-    .embed-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    /* --- Sumber/link di bawah embed --- */
-    .embed-source {
-      display: block;
-      font-size: 0.82rem;
-      color: #6b7fa3;
-      margin-top: 4px;
-      margin-bottom: 20px;
-      word-break: break-all;
-    }
-
-    .embed-source:hover {
-      color: var(--warna-sekunder);
-    }
-
-    /* --- Tombol untuk membuka link eksternal (quiz, game) --- */
-    .link-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 24px;
-      background: var(--warna-bg-card-light);
-      border: 2px solid var(--warna-border-light);
-      border-radius: var(--radius-sm);
-      color: var(--warna-utama);
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      margin: 6px 6px 6px 0;
-    }
-
-    .link-button:hover {
-      border-color: var(--warna-sekunder);
-      background: #f0f8f7;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-
-    .link-button-icon {
-      font-size: 1.2rem;
-    }
-
-    /* --- Grid untuk beberapa tombol link sejajar --- */
-    .link-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    /* --- Label jenis konten (Video, Game, Quiz, dll.) --- */
-    .content-label {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 50px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 12px;
-    }
-
-    .content-label.video { background: #e8f4fd; color: #2980b9; }
-    .content-label.game { background: #fef3e2; color: #e67e22; }
-    .content-label.quiz { background: #f0e8fd; color: #8e44ad; }
-    .content-label.modul { background: #e8fdf0; color: #27ae60; }
-    .content-label.evaluasi { background: #fde8e8; color: #c0392b; }
-
-    /* --- Subbab spacing --- */
-    .subbab + .subbab {
-      margin-top: 28px;
-    }
-
-    /* Responsif embed di mobile */
-    @media (max-width: 768px) {
-      .link-grid {
-        flex-direction: column;
-      }
-
-      .link-button {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-  </style>
 </head>
 <body class="belajar-page">
 
-  <!-- ==================== HEADER HALAMAN BELAJAR ==================== -->
+  <!-- ==================== TOPBAR ==================== -->
   <header class="belajar-topbar">
     <div class="belajar-topbar-inner">
       <a href="index.html" class="belajar-back">&larr; Kembali</a>
-      <h1 class="belajar-title">MATERI PEMBELAJARAN</h1>
-      <button class="belajar-sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
-        <span></span>
-        <span></span>
-        <span></span>
+      <h1 class="belajar-page-title">MATERI PEMBELAJARAN</h1>
+      <button class="belajar-sidebar-btn" id="sidebarToggle" aria-label="Toggle sidebar">
+        <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
-  <!-- ==================== WRAPPER: SIDEBAR + KONTEN ==================== -->
   <div class="belajar-wrapper">
 
-    <!-- Sidebar: daftar bab -->
+    <!-- ==================== SIDEBAR DAFTAR BAB ==================== -->
     <aside class="belajar-sidebar" id="belajarSidebar">
       <nav class="belajar-nav">
-        <div class="bab-item active" data-bab="1">
-          <span class="bab-number">1</span>
-          <span class="bab-label">Adab di Rumah</span>
+        <div class="bab-link active" data-bab="1">
+          <span class="bab-num">1</span>
+          <span>Adab di Rumah</span>
         </div>
-        <div class="bab-item" data-bab="2">
-          <span class="bab-number">2</span>
-          <span class="bab-label">Adab di Sekolah</span>
+        <div class="bab-link" data-bab="2">
+          <span class="bab-num">2</span>
+          <span>Adab di Sekolah</span>
         </div>
-        <div class="bab-item" data-bab="3">
-          <span class="bab-number">3</span>
-          <span class="bab-label">Adab Lingkungan</span>
+        <div class="bab-link" data-bab="3">
+          <span class="bab-num">3</span>
+          <span>Adab Lingkungan</span>
         </div>
       </nav>
     </aside>
 
-    <!-- Area konten utama -->
+    <!-- ==================== KONTEN UTAMA ==================== -->
     <main class="belajar-main">
 
-      <!-- =============================================
+      <!-- ============================================================
            BAB 1: ADAB DI RUMAH
-           ============================================= -->
-      <div class="bab-content" id="bab-1" style="display: block;">
-        <div class="bab-header">
+           ============================================================ -->
+      <div class="bab-content" id="bab-1" style="display:block;">
+
+        <div class="bab-head">
           <h2>Bab 1: Adab di Rumah</h2>
           <p class="bab-summary">Membangun pondasi karakter akhlak mulia sejak dini melalui pembiasaan bakti kepada orang tua dan harmoni dalam keluarga.</p>
         </div>
 
-        <div class="bab-image">
+        <div class="bab-img">
           <img src="https://i.ibb.co.com/VYz8pNzp/Gemini-Generated-Image-63eyvz63eyvz63ey.png" alt="foto anak muslim muslimah">
         </div>
 
-        <!-- Subbab 1.1: Modul - Adab terhadap Orang Tua -->
+        <!-- Subbab 1.1: Modul Adab terhadap Orang Tua -->
         <div class="subbab">
           <h3>1.1 Modul: Adab terhadap Orang Tua</h3>
-          <span class="content-label modul">Presentasi</span>
-          <ul class="subbab-list">
+          <span class="konten-label modul">Presentasi</span>
+          <ul class="sub-list">
             <li>1.1.1 Berbicara dengan nada lembut dan tidak membentak.</li>
             <li>1.1.2 Membantu pekerjaan di rumah.</li>
             <li>1.1.3 Menyayangi adik dan menghormati kakak.</li>
           </ul>
-          <!-- Embed Canva: Adab terhadap orang tua -->
-          <div class="embed-container">
+          <div class="embed-wrap">
             <iframe loading="lazy" src="https://www.canva.com/design/DAHIfZvJW3k/zgTzwATI7xJdB_WDvmghEA/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
           </div>
-          <a href="https://www.canva.com/design/DAHIfZvJW3k/zgTzwATI7xJdB_WDvmghEA/view?utm_content=DAHIfZvJW3k&utm_campaign=designshare&utm_medium=embeds&utm_source=link" target="_blank" rel="noopener" class="embed-source">Adab dalam Islam: Harmonis Keluarga Berakhlak Mulia — oleh Khotimah Ummu Ishaq</a>
+          <a href="https://www.canva.com/design/DAHIfZvJW3k/zgTzwATI7xJdB_WDvmghEA/view?utm_content=DAHIfZvJW3k&utm_campaign=designshare&utm_medium=embeds&utm_source=link" target="_blank" rel="noopener" class="embed-src">Adab dalam Islam: Harmonis Keluarga Berakhlak Mulia — oleh Khotimah Ummu Ishaq</a>
         </div>
 
-        <!-- Subbab 1.2: Modul - Adab terhadap Saudara -->
+        <!-- Subbab 1.2: Modul Adab terhadap Saudara -->
         <div class="subbab">
           <h3>1.2 Modul: Adab terhadap Saudara</h3>
-          <span class="content-label modul">Presentasi</span>
-          <!-- Embed Canva: Adab terhadap saudara -->
-          <div class="embed-container">
+          <span class="konten-label modul">Presentasi</span>
+          <div class="embed-wrap">
             <iframe loading="lazy" src="https://www.canva.com/design/DAHI2jqQf-8/JZf2a5Mp6IxlVek58EhQlg/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
           </div>
-          <a href="https://www.canva.com/design/DAHI2jqQf-8/JZf2a5Mp6IxlVek58EhQlg/view?utm_content=DAHI2jqQf-8&utm_campaign=designshare&utm_medium=embeds&utm_source=link" target="_blank" rel="noopener" class="embed-source">Yellow Colorful Bright The Importance of Education Presentation — oleh violenita viola</a>
+          <a href="https://www.canva.com/design/DAHI2jqQf-8/JZf2a5Mp6IxlVek58EhQlg/view?utm_content=DAHI2jqQf-8&utm_campaign=designshare&utm_medium=embeds&utm_source=link" target="_blank" rel="noopener" class="embed-src">The Importance of Education Presentation — oleh violenita viola</a>
         </div>
 
         <!-- Subbab 1.3: Video Animasi -->
         <div class="subbab">
           <h3>1.3 Video Animasi</h3>
-          <span class="content-label video">Video</span>
-          <ul class="subbab-list">
-            <li>1.3.1 Animasi singkat tentang seorang anak yang langsung merespons saat dipanggil ibu dengan sopan.</li>
-          </ul>
-          <!-- Video 1: YouTube Shorts -->
-          <div class="embed-container">
+          <span class="konten-label video">Video</span>
+          <p class="sub-desc">Animasi singkat tentang seorang anak yang langsung merespons saat dipanggil ibu dengan sopan.</p>
+          <div class="embed-wrap">
             <iframe src="https://www.youtube.com/embed/BQmIxT_9FmM" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
           </div>
-          <!-- Video 2: YouTube -->
-          <div class="embed-container">
+          <div class="embed-wrap">
             <iframe src="https://www.youtube.com/embed/fymYOpdV0AM" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
           </div>
         </div>
@@ -221,174 +97,170 @@
         <!-- Subbab 1.4: Game Edukatif -->
         <div class="subbab">
           <h3>1.4 Game Edukatif</h3>
-          <span class="content-label game">Game</span>
-          <p style="font-size:0.93rem; color:#4a5e80; margin-bottom:12px;">Belajar adab menjadi lebih asyik melalui permainan interaktif.</p>
-          <div class="link-grid">
-            <a href="https://gemini.google.com/share/7deca3347a2e" target="_blank" rel="noopener" class="link-button">
-              <span class="link-button-icon">🎮</span> Game Interaktif Adab di Rumah
+          <span class="konten-label game">Game</span>
+          <p class="sub-desc">Belajar adab menjadi lebih asyik melalui permainan interaktif.</p>
+          <div class="ext-grid">
+            <a href="https://gemini.google.com/share/7deca3347a2e" target="_blank" rel="noopener" class="ext-btn">
+              <span class="ext-btn-icon">&#127918;</span> Game Interaktif Adab di Rumah
             </a>
           </div>
         </div>
 
-        <!-- Subbab 1.5: Kuis Interaktif -->
+        <!-- Subbab 1.5: Kuis -->
         <div class="subbab">
           <h3>1.5 Kuis Interaktif</h3>
-          <span class="content-label quiz">Kuis</span>
-          <ul class="subbab-list">
+          <span class="konten-label quiz">Kuis</span>
+          <ul class="sub-list">
             <li>1.5.1 "Pilih Sikap yang Benar" saat diminta bantuan oleh ayah.</li>
           </ul>
-          <div class="link-grid">
-            <a href="https://wayground.com/admin/quiz/69f4094d5b383768820f966e" target="_blank" rel="noopener" class="link-button">
-              <span class="link-button-icon">✏️</span> Kuis Adab di Rumah
+          <div class="ext-grid">
+            <a href="https://wayground.com/admin/quiz/69f4094d5b383768820f966e" target="_blank" rel="noopener" class="ext-btn">
+              <span class="ext-btn-icon">&#9999;</span> Kuis Adab di Rumah
             </a>
           </div>
         </div>
-      </div>
 
-      <!-- =============================================
+      </div>
+      <!-- / Bab 1 -->
+
+
+      <!-- ============================================================
            BAB 2: ADAB DI SEKOLAH
-           ============================================= -->
-      <div class="bab-content" id="bab-2" style="display: none;">
-        <div class="bab-header">
+           ============================================================ -->
+      <div class="bab-content" id="bab-2" style="display:none;">
+
+        <div class="bab-head">
           <h2>Bab 2: Adab di Sekolah</h2>
           <p class="bab-summary">Fokus pada pengembangan kecerdasan sosial, empati terhadap teman sebaya, serta tata krama dan rasa hormat kepada pendidik.</p>
         </div>
 
-        <div class="bab-image">
+        <div class="bab-img">
           <img src="https://i.ibb.co.com/VYz8pNzp/Gemini-Generated-Image-63eyvz63eyvz63ey.png" alt="foto anak muslim muslimah">
         </div>
 
-        <!-- Subbab 2.1: Modul - Menghormati Guru & Menyayangi Teman -->
+        <!-- Subbab 2.1: Modul -->
         <div class="subbab">
           <h3>2.1 Modul: Menghormati Guru & Menyayangi Teman</h3>
-          <span class="content-label modul">Presentasi</span>
-          <ul class="subbab-list">
+          <span class="konten-label modul">Presentasi</span>
+          <ul class="sub-list">
             <li>2.1.1 Mengucapkan salam saat bertemu dan memperhatikan penjelasan di kelas.</li>
             <li>2.1.2 Tidak mengejek teman dan saling berbagi makanan atau alat tulis.</li>
           </ul>
-          <!-- Embed Canva: Adab di sekolah -->
-          <div class="embed-container">
+          <div class="embed-wrap">
             <iframe loading="lazy" src="https://www.canva.com/design/DAHJ7VLgLrg/2nEqat3VIXzd7v6rvGcKKg/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
           </div>
-          <a href="https://www.canva.com/design/DAHJ7VLgLrg/2nEqat3VIXzd7v6rvGcKKg/view?utm_content=DAHJ7VLgLrg&utm_campaign=designshare&utm_medium=embeds&utm_source=link" target="_blank" rel="noopener" class="embed-source">Menghormati Guru & Menyayangi Teman — oleh Aisyah Nur (Isnath)</a>
+          <a href="https://www.canva.com/design/DAHJ7VLgLrg/2nEqat3VIXzd7v6rvGcKKg/view?utm_content=DAHJ7VLgLrg&utm_campaign=designshare&utm_medium=embeds&utm_source=link" target="_blank" rel="noopener" class="embed-src">Menghormati Guru & Menyayangi Teman — oleh Aisyah Nur (Isnath)</a>
         </div>
 
-        <!-- Subbab 2.2: Video Skenario -->
+        <!-- Subbab 2.2: Video -->
         <div class="subbab">
           <h3>2.2 Video Skenario</h3>
-          <span class="content-label video">Video</span>
-          <ul class="subbab-list">
-            <li>2.2.1 Skenario "Berbagi itu Indah" saat ada teman yang lupa membawa pensil.</li>
-          </ul>
-          <!-- Video 1 -->
-          <div class="embed-container">
+          <span class="konten-label video">Video</span>
+          <p class="sub-desc">Skenario "Berbagi itu Indah" dan contoh adab di sekolah.</p>
+          <div class="embed-wrap">
             <iframe src="https://www.youtube.com/embed/QevJlyk5GfE" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
           </div>
-          <!-- Video 2 -->
-          <div class="embed-container">
+          <div class="embed-wrap">
             <iframe src="https://www.youtube.com/embed/re7uZisvFwo" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
           </div>
-          <!-- Video 3 -->
-          <div class="embed-container">
+          <div class="embed-wrap">
             <iframe src="https://www.youtube.com/embed/k8KHpfxOUfM" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
           </div>
         </div>
 
-        <!-- Subbab 2.3: Game Edukatif -->
+        <!-- Subbab 2.3: Game -->
         <div class="subbab">
           <h3>2.3 Game Edukatif</h3>
-          <span class="content-label game">Game</span>
-          <p style="font-size:0.93rem; color:#4a5e80; margin-bottom:12px;">Menjodohkan situasi di sekolah dengan perilaku adab yang sesuai.</p>
-          <div class="link-grid">
-            <a href="https://gemini.google.com/share/3e02628a8c04" target="_blank" rel="noopener" class="link-button">
-              <span class="link-button-icon">🎮</span> Game Adab Sekolah 1
+          <span class="konten-label game">Game</span>
+          <p class="sub-desc">Menjodohkan situasi di sekolah dengan perilaku adab yang sesuai.</p>
+          <div class="ext-grid">
+            <a href="https://gemini.google.com/share/3e02628a8c04" target="_blank" rel="noopener" class="ext-btn">
+              <span class="ext-btn-icon">&#127918;</span> Game Adab Sekolah 1
             </a>
-            <a href="https://gemini.google.com/share/085f39db065a" target="_blank" rel="noopener" class="link-button">
-              <span class="link-button-icon">🎮</span> Game Adab Sekolah 2
+            <a href="https://gemini.google.com/share/085f39db065a" target="_blank" rel="noopener" class="ext-btn">
+              <span class="ext-btn-icon">&#127918;</span> Game Adab Sekolah 2
             </a>
           </div>
         </div>
 
-        <!-- Subbab 2.4: Kuis Interaktif -->
+        <!-- Subbab 2.4: Kuis -->
         <div class="subbab">
           <h3>2.4 Kuis Interaktif</h3>
-          <span class="content-label quiz">Kuis</span>
-          <p style="font-size:0.93rem; color:#4a5e80; margin-bottom:12px;">Uji pemahamanmu tentang adab di sekolah.</p>
-          <div class="link-grid">
-            <a href="https://gameinteraktif26.my.canva.site" target="_blank" rel="noopener" class="link-button">
-              <span class="link-button-icon">✏️</span> Kuis Interaktif Adab di Sekolah
+          <span class="konten-label quiz">Kuis</span>
+          <p class="sub-desc">Uji pemahamanmu tentang adab di sekolah.</p>
+          <div class="ext-grid">
+            <a href="https://gameinteraktif26.my.canva.site" target="_blank" rel="noopener" class="ext-btn">
+              <span class="ext-btn-icon">&#9999;</span> Kuis Interaktif Adab di Sekolah
             </a>
           </div>
         </div>
-      </div>
 
-      <!-- =============================================
+      </div>
+      <!-- / Bab 2 -->
+
+
+      <!-- ============================================================
            BAB 3: ADAB LINGKUNGAN
-           ============================================= -->
-      <div class="bab-content" id="bab-3" style="display: none;">
-        <div class="bab-header">
+           ============================================================ -->
+      <div class="bab-content" id="bab-3" style="display:none;">
+
+        <div class="bab-head">
           <h2>Bab 3: Adab Lingkungan</h2>
           <p class="bab-summary">Menanamkan rasa tanggung jawab, kepedulian terhadap kebersihan, dan kasih sayang terhadap sesama makhluk ciptaan Allah.</p>
         </div>
 
-        <div class="bab-image">
+        <div class="bab-img">
           <img src="https://i.ibb.co.com/VYz8pNzp/Gemini-Generated-Image-63eyvz63eyvz63ey.png" alt="foto anak muslim muslimah">
         </div>
 
-        <!-- Subbab 3.1: Modul - Menjaga Kebersihan -->
+        <!-- Subbab 3.1: Modul Adab Lingkungan -->
         <div class="subbab">
           <h3>3.1 Modul: Menjaga Kebersihan Lingkungan</h3>
-          <span class="content-label modul">Presentasi</span>
-          <ul class="subbab-list">
+          <span class="konten-label modul">Presentasi</span>
+          <ul class="sub-list">
             <li>3.1.1 Membuang sampah pada tempatnya dan memungut sampah yang berserakan.</li>
-            <li>3.1.2 Tidak menyakiti hewan (seperti kucing) dan menyiram tanaman secara teratur.</li>
+            <li>3.1.2 Tidak menyakiti hewan dan menyiram tanaman secara teratur.</li>
           </ul>
-          <!-- Embed Canva: Adab lingkungan -->
-          <div class="embed-container">
+          <div class="embed-wrap">
             <iframe loading="lazy" src="https://www.canva.com/design/DAHJRR-Cfm8/fi-u2YFHwjBd-jeh5wrsJQ/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
           </div>
-          <a href="https://www.canva.com/design/DAHJRR-Cfm8/fi-u2YFHwjBd-jeh5wrsJQ/view?utm_content=DAHJRR-Cfm8&utm_campaign=designshare&utm_medium=embeds&utm_source=link" target="_blank" rel="noopener" class="embed-source">Adab Lingkungan — oleh violenita viola</a>
+          <a href="https://www.canva.com/design/DAHJRR-Cfm8/fi-u2YFHwjBd-jeh5wrsJQ/view?utm_content=DAHJRR-Cfm8&utm_campaign=designshare&utm_medium=embeds&utm_source=link" target="_blank" rel="noopener" class="embed-src">Adab Lingkungan — oleh violenita viola</a>
         </div>
 
-        <!-- Subbab 3.2: Modul - Adab kepada Hewan -->
+        <!-- Subbab 3.2: Modul Adab kepada Hewan -->
         <div class="subbab">
           <h3>3.2 Modul: Adab kepada Hewan</h3>
-          <span class="content-label modul">Presentasi</span>
-          <!-- Embed Canva: Adab kepada hewan -->
-          <div class="embed-container">
+          <span class="konten-label modul">Presentasi</span>
+          <div class="embed-wrap">
             <iframe loading="lazy" src="https://www.canva.com/design/DAHJRuus-jU/Qf3BsYfCnUgI5PHE5_k8NQ/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
           </div>
-          <a href="https://www.canva.com/design/DAHJRuus-jU/Qf3BsYfCnUgI5PHE5_k8NQ/view?utm_content=DAHJRuus-jU&utm_campaign=designshare&utm_medium=embeds&utm_source=link" target="_blank" rel="noopener" class="embed-source">Adab Kepada Hewan — oleh violenita viola</a>
+          <a href="https://www.canva.com/design/DAHJRuus-jU/Qf3BsYfCnUgI5PHE5_k8NQ/view?utm_content=DAHJRuus-jU&utm_campaign=designshare&utm_medium=embeds&utm_source=link" target="_blank" rel="noopener" class="embed-src">Adab Kepada Hewan — oleh violenita viola</a>
         </div>
 
-        <!-- Subbab 3.3: Video Inspiratif -->
+        <!-- Subbab 3.3: Video -->
         <div class="subbab">
           <h3>3.3 Video Inspiratif</h3>
-          <span class="content-label video">Video</span>
-          <ul class="subbab-list">
-            <li>3.3.1 Karakter utama yang menyelamatkan kucing jalanan atau menanam bunga di taman sekolah.</li>
-          </ul>
-          <!-- Video 1: YouTube Shorts -->
-          <div class="embed-container">
+          <span class="konten-label video">Video</span>
+          <p class="sub-desc">Karakter utama yang menyelamatkan kucing jalanan atau menanam bunga di taman sekolah.</p>
+          <div class="embed-wrap">
             <iframe src="https://www.youtube.com/embed/7Yx3zQOAn_c" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
           </div>
-          <!-- Video 2: YouTube -->
-          <div class="embed-container">
+          <div class="embed-wrap">
             <iframe src="https://www.youtube.com/embed/8BEzuDzyT3o" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
           </div>
         </div>
 
-        <!-- Subbab 3.4: Game Edukatif -->
+        <!-- Subbab 3.4: Game -->
         <div class="subbab">
           <h3>3.4 Game Edukatif</h3>
-          <span class="content-label game">Game</span>
-          <p style="font-size:0.93rem; color:#4a5e80; margin-bottom:12px;">Permainan interaktif tentang adab lingkungan.</p>
-          <div class="link-grid">
-            <a href="https://gemini.google.com/share/72318535a78e" target="_blank" rel="noopener" class="link-button">
-              <span class="link-button-icon">🎮</span> Game Adab Lingkungan 1
+          <span class="konten-label game">Game</span>
+          <p class="sub-desc">Permainan interaktif tentang adab lingkungan.</p>
+          <div class="ext-grid">
+            <a href="https://gemini.google.com/share/72318535a78e" target="_blank" rel="noopener" class="ext-btn">
+              <span class="ext-btn-icon">&#127918;</span> Game Adab Lingkungan 1
             </a>
-            <a href="https://gemini.google.com/share/db87b509de60" target="_blank" rel="noopener" class="link-button">
-              <span class="link-button-icon">🎮</span> Game Adab Lingkungan 2
+            <a href="https://gemini.google.com/share/db87b509de60" target="_blank" rel="noopener" class="ext-btn">
+              <span class="ext-btn-icon">&#127918;</span> Game Adab Lingkungan 2
             </a>
           </div>
         </div>
@@ -396,11 +268,11 @@
         <!-- Subbab 3.5: Kuis -->
         <div class="subbab">
           <h3>3.5 Kuis Interaktif</h3>
-          <span class="content-label quiz">Kuis</span>
-          <p style="font-size:0.93rem; color:#4a5e80; margin-bottom:12px;">Uji pemahamanmu tentang adab lingkungan dan menyayangi makhluk hidup.</p>
-          <div class="link-grid">
-            <a href="https://gemini.google.com/share/696cebc6298e" target="_blank" rel="noopener" class="link-button">
-              <span class="link-button-icon">✏️</span> Kuis Adab Lingkungan
+          <span class="konten-label quiz">Kuis</span>
+          <p class="sub-desc">Uji pemahamanmu tentang adab lingkungan dan menyayangi makhluk hidup.</p>
+          <div class="ext-grid">
+            <a href="https://gemini.google.com/share/696cebc6298e" target="_blank" rel="noopener" class="ext-btn">
+              <span class="ext-btn-icon">&#9999;</span> Kuis Adab Lingkungan
             </a>
           </div>
         </div>
@@ -408,18 +280,20 @@
         <!-- Subbab 3.6: Evaluasi Akhir -->
         <div class="subbab">
           <h3>3.6 Evaluasi Akhir</h3>
-          <span class="content-label evaluasi">Evaluasi</span>
-          <ul class="subbab-list">
+          <span class="konten-label evaluasi">Evaluasi</span>
+          <ul class="sub-list">
             <li>3.6.1 Checklist "Aksi Adabku Hari Ini" untuk mempraktikkan materi di kehidupan nyata.</li>
           </ul>
-          <p style="font-size:0.93rem; color:#4a5e80; margin-bottom:12px;">Isilah evaluasi berikut untuk mengukur pemahamanmu seluruh materi.</p>
-          <div class="link-grid">
-            <a href="https://canva.link/nqpv9yc4ya5t70m" target="_blank" rel="noopener" class="link-button" style="border-color:#c0392b; color:#c0392b;">
-              <span class="link-button-icon">📋</span> Evaluasi Akhir: Aksi Adabku
+          <p class="sub-desc">Isilah evaluasi berikut untuk mengukur pemahamanmu terhadap seluruh materi yang telah dipelajari.</p>
+          <div class="ext-grid">
+            <a href="https://canva.link/nqpv9yc4ya5t70m" target="_blank" rel="noopener" class="ext-btn danger">
+              <span class="ext-btn-icon">&#128203;</span> Evaluasi Akhir: Aksi Adabku
             </a>
           </div>
         </div>
+
       </div>
+      <!-- / Bab 3 -->
 
     </main>
   </div>
