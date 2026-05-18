@@ -113,7 +113,6 @@ ul{list-style:none}
   background:linear-gradient(160deg,var(--warna-bg-utama) 0%,var(--warna-utama) 60%,#152040 100%);
   overflow:hidden;
 }
-/* Lingkaran dekoratif */
 .hero-deco{
   position:absolute;top:-120px;right:-100px;
   width:500px;height:500px;border-radius:50%;
@@ -130,7 +129,6 @@ ul{list-style:none}
   border-radius:50px;font-size:.82rem;
   color:var(--warna-sekunder);margin-bottom:20px;letter-spacing:.3px;
 }
-.hero-badge::first-letter{color:var(--warna-sekunder)}
 .hero-text h1{
   font-size:2.9rem;font-weight:800;line-height:1.18;
   margin-bottom:20px;letter-spacing:-.3px;
@@ -144,14 +142,12 @@ ul{list-style:none}
 .hero-image img{
   max-width:100%;border-radius:var(--radius);
   box-shadow:var(--warna-shadow-lg);
-  /* Animasi mengambang */
   animation:heroFloat 5s ease-in-out infinite;
 }
 @keyframes heroFloat{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(-12px)}
 }
-/* Gradasi transisi bawah hero */
 .hero-fade{
   position:absolute;bottom:0;left:0;width:100%;height:100px;
   background:linear-gradient(to bottom,transparent,var(--warna-bg-card));
@@ -232,7 +228,6 @@ ul{list-style:none}
 .card h3{font-size:1.1rem;font-weight:700;margin-bottom:10px;color:var(--warna-utama)}
 .card p{font-size:.93rem;color:#506588;line-height:1.7}
 
-/* Garis aksen atas card */
 .card-accent{border-top:3px solid var(--warna-sekunder)}
 .card-num{
   font-size:2.6rem;font-weight:900;line-height:1;
@@ -270,7 +265,6 @@ ul{list-style:none}
   border-radius:var(--radius);box-shadow:var(--warna-shadow-lg);
 }
 
-/* Grid manfaat */
 .benefit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .benefit-item{
   display:flex;align-items:flex-start;gap:14px;
@@ -337,7 +331,6 @@ ul{list-style:none}
 .team-photo{
   width:108px;height:108px;border-radius:50%;
   overflow:hidden;margin:0 auto 16px;
-  /* Border gradien menggunakan outline + padding trick */
   padding:3px;
   background:linear-gradient(135deg,var(--warna-sekunder),var(--warna-aksen));
 }
@@ -423,7 +416,6 @@ ul{list-style:none}
   .team-card h3{font-size:.88rem}
 }
 
-/* RESPONSIVE KECIL (max 480px) */
 @media(max-width:480px){
   .team-grid{grid-template-columns:1fr;max-width:300px;margin:0 auto}
   .btn-big{padding:16px 36px;font-size:1rem}
@@ -432,7 +424,7 @@ ul{list-style:none}
 }
 
 /* ================================================================
-   HALAMAN BELAJAR — Styles khusus LMS mini
+   HALAMAN BELAJAR — Layout LMS mini
    ================================================================ */
 .belajar-page{background:var(--warna-bg-card);color:var(--warna-utama)}
 
@@ -487,7 +479,93 @@ ul{list-style:none}
 }
 .bab-link.active .bab-num{background:rgba(0,0,0,0.15)}
 
-/* Konten utama */
+/* ================================================================
+   SUB-BAB DI SIDEBAR (Nested di bawah navigasi bab)
+   Muncul di sidebar, rata kanan, langsung di bawah bab.
+   ================================================================ */
+.sub-bab-list {
+  display: none;
+  padding: 0 14px 10px 42px;
+  margin-bottom: 6px;
+  border-left: 2px solid var(--warna-border-glass);
+  margin-left: 20px;
+}
+.sub-bab-list.active {
+  display: block;
+  animation: subListIn 0.3s ease;
+}
+@keyframes subListIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.sub-bab-link {
+  display: block;
+  width: 100%;
+  text-align: right;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: .78rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--warna-teks-2);
+  transition: all var(--transisi);
+  font-family: inherit;
+  margin-bottom: 2px;
+}
+.sub-bab-link:hover {
+  background: var(--warna-glass);
+  color: var(--warna-teks);
+}
+.sub-bab-link.active {
+  background: rgba(46,196,182,0.15);
+  color: var(--warna-sekunder);
+  font-weight: 700;
+}
+.sub-bab-link::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--warna-border-glass);
+  margin-right: 8px;
+  vertical-align: middle;
+  transition: background var(--transisi);
+}
+.sub-bab-link.active::before {
+  background: var(--warna-sekunder);
+}
+
+/* Panel konten sub-bab di area utama */
+.subbab-panel {
+  display: none;
+  animation: subFadeIn 0.35s ease;
+}
+.subbab-panel.active {
+  display: block;
+}
+@keyframes subFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsif sidebar sub-bab */
+@media (max-width: 768px) {
+  .sub-bab-list {
+    padding: 0 10px 8px 32px;
+    margin-left: 14px;
+  }
+  .sub-bab-link {
+    font-size: .74rem;
+    padding: 7px 10px;
+  }
+}
+
+/* ================================================================
+   KONTEN UTAMA HALAMAN BELAJAR
+   ================================================================ */
 .belajar-main{flex-grow:1;padding:32px;max-width:880px}
 .bab-head{margin-bottom:24px}
 .bab-head h2{font-size:1.5rem;font-weight:800;margin-bottom:6px;color:var(--warna-utama)}
@@ -498,7 +576,7 @@ ul{list-style:none}
 }
 .bab-img img{width:100%;height:240px;object-fit:cover}
 
-/* Subbab */
+/* Subbab card */
 .subbab{
   margin-bottom:24px;padding:22px;
   background:var(--warna-card-light);border-radius:var(--radius);
@@ -570,17 +648,3 @@ ul{list-style:none}
 /* Responsive belajar */
 @media(max-width:768px){
   .belajar-sidebar-btn{display:flex}
-  .belajar-sidebar{
-    position:fixed;top:56px;left:-270px;width:270px;
-    height:calc(100vh - 56px);z-index:99;
-    transition:left var(--transisi);overflow-y:auto;
-  }
-  .belajar-sidebar.active{left:0;box-shadow:4px 0 20px rgba(0,0,0,0.3)}
-  .belajar-main{padding:20px 16px}
-  .bab-head h2{font-size:1.25rem}
-  .subbab{padding:16px}
-  .subbab h3{font-size:.98rem}
-  .bab-img img{height:170px}
-  .ext-grid{flex-direction:column}
-  .ext-btn{width:100%;justify-content:center}
-}
