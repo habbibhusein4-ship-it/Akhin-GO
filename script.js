@@ -53,7 +53,7 @@ allAnchors.forEach(function (link) {
   link.addEventListener('click', function (e) {
     var href = this.getAttribute('href');
 
-    // abaikan jika href hanya "#" saja
+    /* abaikan jika href hanya "#" saja */
     if (href === '#') return;
 
     e.preventDefault();
@@ -63,7 +63,7 @@ allAnchors.forEach(function (link) {
       target.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // tutup menu mobile (jika terbuka)
+    /* tutup menu mobile (jika terbuka) */
     if (hamburger) {
       hamburger.classList.remove('active');
       navMenu.classList.remove('active');
@@ -86,16 +86,16 @@ function updateActiveLink() {
     var id     = section.getAttribute('id');
 
     if (scrollPos >= top && scrollPos < top + height) {
-      // hapus 'active' dari semua link
+      /* hapus 'active' dari semua link */
       navLinks.forEach(function (l) { l.classList.remove('active'); });
-      // tambahkan 'active' ke link yang sesuai
+      /* tambahkan 'active' ke link yang sesuai */
       var activeLink = document.querySelector('.nav-link[href="#' + id + '"]');
       if (activeLink) activeLink.classList.add('active');
     }
   });
 }
 
-// jalankan saat scroll (dengan sedikit throttling)
+/* jalankan saat scroll (dengan sedikit throttling) */
 var scrollTimer;
 window.addEventListener('scroll', function () {
   clearTimeout(scrollTimer);
@@ -114,7 +114,7 @@ var revealObserver = new IntersectionObserver(function (entries) {
   entries.forEach(function (entry) {
     if (entry.isIntersecting) {
       entry.target.classList.add('revealed');
-      revealObserver.unobserve(entry.target); // animasi hanya sekali
+      revealObserver.unobserve(entry.target); /* animasi hanya sekali */
     }
   });
 }, { threshold: 0.12 });
@@ -143,12 +143,19 @@ document.querySelectorAll('img').forEach(function (img) {
 /* ================================================================
    8. KODE KHUSUS HALAMAN BELAJAR (belajar.html)
    Hanya berjalan jika elemen-nya ada di halaman.
+
+   Alur navigasi:
+   - Klik bab di sidebar → tampilkan bab, buka sub-bab-nya
+   - Klik sub-bab di sidebar → tampilkan konten sub-bab saja
    ================================================================ */
 
 var sidebarBtn  = document.getElementById('sidebarToggle');
 var sidebar     = document.getElementById('belajarSidebar');
 var babLinks    = document.querySelectorAll('.bab-link');
 var babContents = document.querySelectorAll('.bab-content');
+var subLists    = document.querySelectorAll('.sub-bab-list');
+var subLinks    = document.querySelectorAll('.sub-bab-link');
+
 
 /* --- Toggle sidebar di mobile --- */
 if (sidebarBtn && sidebar) {
@@ -157,26 +164,91 @@ if (sidebarBtn && sidebar) {
   });
 }
 
-/* --- Navigasi antar bab --- */
+
+/* --- Klik bab di sidebar --- */
 if (babLinks.length > 0) {
   babLinks.forEach(function (link) {
     link.addEventListener('click', function () {
       var babId = this.getAttribute('data-bab');
 
-      // update sidebar
+      /* 1) tandai bab yang diklik */
       babLinks.forEach(function (l) { l.classList.remove('active'); });
       this.classList.add('active');
 
-      // tampilkan konten yang dipilih, sembunyikan lainnya
+      /* 2) sembunyikan semua bab, tampilkan yang dipilih */
       babContents.forEach(function (c) { c.style.display = 'none'; });
       var target = document.getElementById('bab-' + babId);
       if (target) target.style.display = 'block';
 
-      // tutup sidebar di mobile
-      if (sidebar) sidebar.classList.remove('active');
+      /* 3) tampilkan sub-bab list yang sesuai, sembunyikan lainnya */
+      subLists.forEach(function (list) {
+        if (list.getAttribute('data-parent') === babId) {
+          list.classList.add('active');
+        } else {
+          list.classList.remove('active');
+        }
+      });
 
-      // scroll ke atas konten
+      /* 4) reset: tampilkan sub-bab pertama, sembunyikan lainnya */
+      if (target) {
+        target.querySelectorAll('.subbab-panel').forEach(function (p, i) {
+          if (i === 0) p.classList.add('active');
+          else p.classList.remove('active');
+        });
+      }
+      subLinks.forEach(function (s) {
+        var subParent = s.closest('.sub-bab-list');
+        if (subParent && subParent.getAttribute('data-parent') === babId) {
+          /* aktifkan yang pertama saja */
+          if (s === subParent.querySelector('.sub-bab-link')) {
+            s.classList.add('active');
+          } else {
+            s.classList.remove('active');
+          }
+        } else {
+          s.classList.remove('active');
+        }
+      });
+
+      /* 5) tutup sidebar di mobile & scroll ke atas */
+      if (sidebar) sidebar.classList.remove('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+}
+
+
+/* --- Klik sub-bab di sidebar ---
+   Hanya menampilkan konten sub-bab yang diklik,
+   yang lain disembunyikan.                          */
+if (subLinks.length > 0) {
+  subLinks.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation(); /* jangan trigger klik bab */
+
+      var subId = this.getAttribute('data-sub');
+
+      /* cari sub-bab list parent untuk scope per bab */
+      var parentList = this.closest('.sub-bab-list');
+
+      /* hapus active dari semua sub-bab link dalam bab ini */
+      if (parentList) {
+        parentList.querySelectorAll('.sub-bab-link').forEach(function (b) {
+          b.classList.remove('active');
+        });
+      }
+
+      /* tandai yang diklik */
+      this.classList.add('active');
+
+      /* sembunyikan semua panel, tampilkan yang dipilih */
+      var allPanels = document.querySelectorAll('.subbab-panel');
+      allPanels.forEach(function (p) { p.classList.remove('active'); });
+      var targetPanel = document.getElementById('sub-' + subId);
+      if (targetPanel) targetPanel.classList.add('active');
+
+      /* tutup sidebar di mobile */
+      if (sidebar) sidebar.classList.remove('active');
     });
   });
 }
