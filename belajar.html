@@ -7,113 +7,165 @@
   <link rel="stylesheet" href="style.css">
 
   <style>
-    /* Embed untuk kuis dan game yang mendukung iframe */
-    .embed-full {
-      width: 100%;
-      height: 600px;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      margin-top: 12px;
-      margin-bottom: 10px;
-    }
-    .embed-full-no-border {
-      width: 100%;
-      height: 600px;
-      border: none;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      margin-top: 12px;
-      margin-bottom: 10px;
-    }
-
-    /* Card untuk game/kuis yang tidak mendukung embed
-       Ditampilkan sebagai pengganti iframe */
+    /* Card untuk game/kuis yang diblokir iframe */
     .open-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 48px 32px;
       margin-top: 12px;
       margin-bottom: 10px;
+      padding: 36px 28px;
       background: linear-gradient(135deg, #f0faf8 0%, #e8f4fd 100%);
       border: 2px dashed #2EC4B6;
       border-radius: 12px;
-      gap: 16px;
+      text-align: center;
     }
-    .open-card-icon {
-      width: 72px;
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #2EC4B6;
-      border-radius: 50%;
-      font-size: 2rem;
-      box-shadow: 0 6px 20px rgba(46,196,182,0.35);
-      animation: cardPulse 2.5s ease-in-out infinite;
-    }
-    @keyframes cardPulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 6px 20px rgba(46,196,182,0.35); }
-      50% { transform: scale(1.08); box-shadow: 0 8px 28px rgba(46,196,182,0.5); }
-    }
-    .open-card h4 {
+    .open-card-title {
       font-size: 1.1rem;
       font-weight: 700;
       color: #1B2A4A;
-      margin: 0;
+      margin-bottom: 6px;
     }
-    .open-card p {
+    .open-card-desc {
       font-size: .88rem;
       color: #506588;
-      margin: 0;
-      max-width: 340px;
+      margin-bottom: 20px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .open-card-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
     }
     .open-card-btn {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 14px 36px;
-      background: #2EC4B6;
-      color: #1B2A4A;
-      font-size: 1rem;
+      gap: 8px;
+      padding: 13px 28px;
+      color: #fff;
+      font-size: .92rem;
       font-weight: 700;
       border: none;
       border-radius: 50px;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(46,196,182,0.3);
       text-decoration: none;
-      margin-top: 4px;
     }
     .open-card-btn:hover {
-      background: #25a99d;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(46,196,182,0.4);
+      transform: translateY(-2px);
     }
-    .open-card-btn span {
-      font-size: 1.2rem;
+    /* Warna tombol berbeda agar mudah dibedakan */
+    .btn-tosca {
+      background: #2EC4B6;
+      box-shadow: 0 4px 15px rgba(46,196,182,0.35);
+    }
+    .btn-tosca:hover { background: #25a99d; }
+    .btn-steel {
+      background: #4682B4;
+      box-shadow: 0 4px 15px rgba(70,130,180,0.35);
+    }
+    .btn-steel:hover { background: #3a6f96; }
+    .btn-ungu {
+      background: #7c3aed;
+      box-shadow: 0 4px 15px rgba(124,58,237,0.35);
+    }
+    .btn-ungu:hover { background: #6d28d9; }
+    .btn-merah {
+      background: #e74c3c;
+      box-shadow: 0 4px 15px rgba(231,76,60,0.35);
+    }
+    .btn-merah:hover { background: #c0392b; }
+    .btn-icon { font-size: 1.15rem; }
+
+    /* ================================================== */
+    /* CSS BARU: Style untuk Game & Kuis Interaktif        */
+    /* ================================================== */
+    .inline-interactive {
+      margin-top: 30px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      text-align: left;
+    }
+    .scenario-box {
+      background: #f8f9fa;
+      border-left: 4px solid #2EC4B6;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      font-style: italic;
+      color: #333;
+      border-radius: 0 8px 8px 0;
+    }
+    .action-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .action-btn {
+      background: #fff;
+      border: 2px solid #e0e0e0;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #1B2A4A;
+      transition: all 0.2s;
+      text-align: left;
+    }
+    .action-btn:hover { border-color: #2EC4B6; background: #f0fdfb; }
+    .action-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+    .action-btn.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+    
+    .q-container { margin-bottom: 20px; }
+    .q-text { font-weight: 600; color: #1B2A4A; margin-bottom: 10px; }
+    .q-option {
+      display: block; width: 100%; text-align: left;
+      padding: 10px 15px; margin-bottom: 8px;
+      background: #f0faf8; border: 1px solid #2EC4B6;
+      border-radius: 6px; cursor: pointer; font-weight: 500; color: #1B2A4A;
+      transition: 0.2s;
+    }
+    .q-option:hover { background: #e0f5f3; }
+    .q-option.selected-correct { background: #d4edda; border-color: #28a745; color: #155724; }
+    .q-option.selected-wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+    
+    .score-display {
+      margin-top: 15px; padding: 15px; background: #e8f4fd;
+      border-radius: 8px; font-weight: 700; color: #1B2A4A; text-align: center;
+      display: none;
+    }
+
+    /* ================================================== */
+    /* CSS: Memenuhi samping (Full Width) untuk Kuis Embed */
+    /* (Disesuaikan dengan kode snippet yang diberikan)    */
+    /* ================================================== */
+    .full-width-embed {
+      width: 100%;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .full-width-embed iframe {
+      width: 100%;
+      height: 600px; 
+      border: none; 
+      border-radius: 16px; 
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: block;
+    }
+    .embed-fallback-link {
+      display: block;
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: #506588;
     }
 
     @media (max-width: 768px) {
-      .embed-full,
-      .embed-full-no-border {
-        height: 420px;
-      }
-      .open-card {
-        padding: 36px 20px;
-      }
-      .open-card-icon {
-        width: 60px;
-        height: 60px;
-        font-size: 1.6rem;
-      }
-      .open-card-btn {
-        padding: 12px 28px;
-        font-size: .92rem;
-      }
+      .open-card { padding: 28px 18px; }
+      .open-card-btns { flex-direction: column; align-items: center; }
+      .open-card-btn { width: 100%; max-width: 300px; justify-content: center; }
+      .full-width-embed iframe { height: 450px; }
     }
   </style>
 </head>
@@ -136,7 +188,6 @@
     <aside class="belajar-sidebar" id="belajarSidebar">
       <nav class="belajar-nav">
 
-        <!-- Bab 1 + Sub-bab -->
         <div class="bab-link active" data-bab="1">
           <span class="bab-num">1</span>
           <span>Adab di Rumah</span>
@@ -149,7 +200,6 @@
           <button class="sub-bab-link" data-sub="1-5">1.5 Kuis Interaktif</button>
         </div>
 
-        <!-- Bab 2 + Sub-bab -->
         <div class="bab-link" data-bab="2">
           <span class="bab-num">2</span>
           <span>Adab di Sekolah</span>
@@ -161,7 +211,6 @@
           <button class="sub-bab-link" data-sub="2-4">2.4 Kuis Interaktif</button>
         </div>
 
-        <!-- Bab 3 + Sub-bab -->
         <div class="bab-link" data-bab="3">
           <span class="bab-num">3</span>
           <span>Adab Lingkungan</span>
@@ -196,7 +245,7 @@
           <img src="https://i.ibb.co.com/VYz8pNzp/Gemini-Generated-Image-63eyvz63eyvz63ey.png" alt="foto anak muslim muslimah">
         </div>
 
-        <!-- Panel 1.1 -->
+        <!-- 1.1 Modul -->
         <div class="subbab-panel active" id="sub-1-1">
           <div class="subbab">
             <h3>1.1 Modul: Adab terhadap Orang Tua</h3>
@@ -213,7 +262,7 @@
           </div>
         </div>
 
-        <!-- Panel 1.2 -->
+        <!-- 1.2 Modul -->
         <div class="subbab-panel" id="sub-1-2">
           <div class="subbab">
             <h3>1.2 Modul: Adab terhadap Saudara</h3>
@@ -225,7 +274,7 @@
           </div>
         </div>
 
-        <!-- Panel 1.3 -->
+        <!-- 1.3 Video -->
         <div class="subbab-panel" id="sub-1-3">
           <div class="subbab">
             <h3>1.3 Video Animasi</h3>
@@ -240,37 +289,35 @@
           </div>
         </div>
 
-        <!-- Panel 1.4 — GAME EDUKATIF (CARD BUKA TAB BARU)
-             Gemini share tidak mendukung iframe,
-             jadi diganti card yang mengarahkan ke tab baru. -->
+        <!-- 1.4 Game -->
         <div class="subbab-panel" id="sub-1-4">
           <div class="subbab">
             <h3>Bab 1: Game Edukatif</h3>
             <span class="konten-label game">Game</span>
             <p class="sub-desc">Belajar adab menjadi lebih asyik melalui permainan interaktif.</p>
-
             <div class="open-card">
-              <div class="open-card-icon">&#127918;</div>
-              <h4>Game Interaktif Adab di Rumah</h4>
-              <p>Klik tombol di bawah untuk membuka game di tab baru. Game tidak bisa ditampilkan langsung di halaman ini karena keterbatasan platform.</p>
-              <a href="https://gemini.google.com/share/7deca3347a2e" target="_blank" rel="noopener" class="open-card-btn">
-                <span>&#9654;</span> Mainkan Game
-              </a>
+              <p class="open-card-title">Game Interaktif Adab di Rumah</p>
+              <p class="open-card-desc">Klik tombol di bawah untuk langsung memainkan game di tab baru.</p>
+              <div class="open-card-btns">
+                <a href="https://gemini.google.com/share/7deca3347a2e" target="_blank" rel="noopener" class="open-card-btn btn-tosca">
+                  <span class="btn-icon">&#9654;</span> Mainkan Game
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Panel 1.5 — Kuis Interaktif (Embed) -->
+        <!-- 1.5 Kuis (Embed Zep.us) -->
         <div class="subbab-panel" id="sub-1-5">
           <div class="subbab">
             <h3>Kuis Bab 1: Adab di Rumah</h3>
             <span class="konten-label quiz">Kuis</span>
-            <p class="sub-desc">Kerjakan kuis berikut untuk menguji pemahamanmu tentang adab di rumah.</p>
-            <iframe 
-              class="embed-full" 
-              src="https://wayground.com/admin/quiz/69f4094d5b383768820f966e/quiz-bab-1-adab-di-rumah" 
-              allowfullscreen>
-            </iframe>
+            <p class="sub-desc">Waktunya Bermain! Silakan selesaikan kuis interaktif di bawah ini untuk menguji pemahamanmu.</p>
+            
+            <div class="full-width-embed">
+              <iframe src="https://quiz.zep.us/id/play/lpe4qg" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+            <a href="https://quiz.zep.us/id/play/lpe4qg" target="_blank" rel="noopener" class="embed-fallback-link">Buka Kuis di Tab Baru (Jika tidak tampil)</a>
           </div>
         </div>
 
@@ -289,10 +336,10 @@
         </div>
 
         <div class="bab-img">
-          <img src="https://i.ibb.co.com/VYz8pNzp/Gemini-Generated-Image-63eyvz63eyvz63ey.png" alt="foto anak muslim muslimah">
+          <img src="https://i.ibb.co.com/VYz8pNzp/Gemini-Generated-Image-63eyvz63eyvz63eyvz63ey.png" alt="foto anak muslim muslimah">
         </div>
 
-        <!-- Panel 2.1 -->
+        <!-- 2.1 Modul -->
         <div class="subbab-panel active" id="sub-2-1">
           <div class="subbab">
             <h3>2.1 Modul: Menghormati Guru & Menyayangi Teman</h3>
@@ -308,7 +355,7 @@
           </div>
         </div>
 
-        <!-- Panel 2.2 -->
+        <!-- 2.2 Video -->
         <div class="subbab-panel" id="sub-2-2">
           <div class="subbab">
             <h3>2.2 Video Skenario</h3>
@@ -326,39 +373,44 @@
           </div>
         </div>
 
-        <!-- Panel 2.3 — Game juga pakai card (Gemini share tidak mendukung embed) -->
-        <div class="subbab-panel" id="sub-3">
+        <!-- 2.3 Game -->
+        <div class="subbab-panel" id="sub-2-3">
           <div class="subbab">
-            <h3>2.3 Game Edukatif</h3>
+            <h3>Bab 2: Game Edukatif</h3>
             <span class="konten-label game">Game</span>
             <p class="sub-desc">Menjodohkan situasi di sekolah dengan perilaku adab yang sesuai.</p>
-
             <div class="open-card">
-              <div class="open-card-icon">&#127918;</div>
-              <h4>Game Interaktif Adab di Sekolah</h4>
-              <p>Klik tombol di bawah untuk membuka game di tab baru.</p>
-              <a href="https://gemini.google.com/share/3e02628a8c04" target="_blank" rel="noopener" class="open-card-btn">
-                <span>&#9654;</span> Game Adab Sekolah 1
-              </a>
-              <a href="https://gemini.google.com/share/085f39db065a" target="_blank" rel="noopener" class="open-card-btn" style="background:#4682B4; box-shadow: 0 4px 15px rgba(70,130,180,0.3);">
-                <span>&#9654;</span> Game Adab Sekolah 2
-              </a>
+              <p class="open-card-title">Game Interaktif Adab di Sekolah</p>
+              <p class="open-card-desc">Klik tombol di bawah untuk langsung memainkan game di tab baru.</p>
+              <div class="open-card-btns">
+                <a href="https://gemini.google.com/share/3e02628a8c04" target="_blank" rel="noopener" class="open-card-btn btn-tosca">
+                  <span class="btn-icon">&#9654;</span> Game Adab Sekolah 1
+                </a>
+                <a href="https://gemini.google.com/share/085f39db065a" target="_blank" rel="noopener" class="open-card-btn btn-steel">
+                  <span class="btn-icon">&#9654;</span> Game Adab Sekolah 2
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Panel 2.4 — Kuis Interaktif (Embed) -->
+        <!-- ================================================== -->
+        <!-- 2.4 Kuis (Embed Zep.us - Disesuaikan dari Snippet) -->
+        <!-- ================================================== -->
         <div class="subbab-panel" id="sub-2-4">
           <div class="subbab">
             <h3>Kuis Bab 2: Adab di Sekolah</h3>
             <span class="konten-label quiz">Kuis</span>
-            <p class="sub-desc">Kerjakan kuis berikut untuk menguji pemahamanmu tentang adab di sekolah.</p>
-            <iframe 
-              class="embed-full-no-border" 
-              src="https://gameinteraktif26.my.canva.site/" 
-              allowfullscreen="allowfullscreen" 
-              allow="fullscreen">
-            </iframe>
+            <p class="sub-desc">Waktunya Bermain! Silakan selesaikan kuis interaktif di bawah ini untuk menguji pemahamanmu.</p>
+            
+            <div class="full-width-embed">
+              <iframe 
+                src="https://quiz.zep.us/id/play/6P4LNV" 
+                allow="autoplay; fullscreen"
+                allowfullscreen>
+              </iframe>
+            </div>
+            <a href="https://quiz.zep.us/id/play/6P4LNV" target="_blank" rel="noopener" class="embed-fallback-link">Buka Kuis di Tab Baru (Jika tidak tampil)</a>
           </div>
         </div>
 
@@ -380,7 +432,7 @@
           <img src="https://i.ibb.co.com/VYz8pNzp/Gemini-Generated-Image-63eyvz63eyvz63eyvz63ey.png" alt="foto anak muslim muslimah">
         </div>
 
-        <!-- Panel 3.1 -->
+        <!-- 3.1 Modul -->
         <div class="subbab-panel active" id="sub-3-1">
           <div class="subbab">
             <h3>3.1 Modul: Menjaga Kebersihan Lingkungan</h3>
@@ -396,7 +448,7 @@
           </div>
         </div>
 
-        <!-- Panel 3.2 -->
+        <!-- 3.2 Modul -->
         <div class="subbab-panel" id="sub-3-2">
           <div class="subbab">
             <h3>3.2 Modul: Adab kepada Hewan</h3>
@@ -408,7 +460,7 @@
           </div>
         </div>
 
-        <!-- Panel 3.3 -->
+        <!-- 3.3 Video -->
         <div class="subbab-panel" id="sub-3-3">
           <div class="subbab">
             <h3>3.3 Video Inspiratif</h3>
@@ -423,42 +475,97 @@
           </div>
         </div>
 
-        <!-- Panel 3.4 — Game juga pakai card (Gemini share tidak mendukung embed) -->
+        <!-- 3.4 Game -->
         <div class="subbab-panel" id="sub-3-4">
           <div class="subbab">
-            <h3>3.4 Game Edukatif</h3>
-            <span class="konten-label game">Game</span>
-            <p class="sub-desc">Permainan interaktif tentang adab lingkungan.</p>
+            <h3>Bab 3: Game Edukatif Situasi</h3>
+            <span class="konten-label game">Game Interaktif</span>
+            <p class="sub-desc">Pilih tindakan yang paling sesuai dengan adab Islam dalam menjaga lingkungan!</p>
+            
+            <div class="inline-interactive" id="gameLingkungan">
+              <div class="scenario-box">
+                🏞️ <strong>Skenario:</strong> Kamu berjalan di taman dan melihat bungkus makanan berserakan di rumput. Apa yang akan kamu lakukan?
+              </div>
+              <div class="action-btns">
+                <button class="action-btn" onclick="playGame(this, false)">A. Abaikan saja, itu tugas petugas kebersihan</button>
+                <button class="action-btn" onclick="playGame(this, true)">B. Memungutnya dan membuangnya ke tempat sampah</button>
+                <button class="action-btn" onclick="playGame(this, false)">C. Menendangnya ke luar jalan setapak</button>
+              </div>
 
-            <div class="open-card">
-              <div class="open-card-icon">&#127918;</div>
-              <h4>Game Interaktif Adab Lingkungan</h4>
-              <p>Klik tombol di bawah untuk membuka game di tab baru.</p>
-              <a href="https://gemini.google.com/share/72318535a78e" target="_blank" rel="noopener" class="open-card-btn">
-                <span>&#9654;</span> Game Adab Lingkungan 1
-              </a>
-              <a href="https://gemini.google.com/share/db87b509de60" target="_blank" rel="noopener" class="open-card-btn" style="background:#4682B4; box-shadow: 0 4px 15px rgba(70,130,180,0.3);">
-                <span>&#9654;</span> Game Adab Lingkungan 2
-              </a>
+              <div class="scenario-box" style="margin-top: 25px;">
+                🐈 <strong>Skenario:</strong> Seekor kucing terlihat sangat lapar di depan rumahmu. Apa yang sebaiknya kamu lakukan?
+              </div>
+              <div class="action-btns">
+                <button class="action-btn" onclick="playGame(this, false)">A. Usir kucing itu agar pergi</button>
+                <button class="action-btn" onclick="playGame(this, true)">B. Berikan makanan dan air minum sambil menyayanginya</button>
+                <button class="action-btn" onclick="playGame(this, false)">C. Berikan makanan lalu lempar dengan batu agar ia tak kembali</button>
+              </div>
+            </div>
+
+            <div class="open-card" style="margin-top: 25px;">
+              <p class="open-card-title">Mainkan Game Lainnya</p>
+              <p class="open-card-desc">Ingin mencoba permainan lain di tab baru? Klik tombol di bawah.</p>
+              <div class="open-card-btns">
+                <a href="https://gemini.google.com/share/72318535a78e" target="_blank" rel="noopener" class="open-card-btn btn-tosca">
+                  <span class="btn-icon">&#9654;</span> Game Eksternal 1
+                </a>
+                <a href="https://gemini.google.com/share/db87b509de60" target="_blank" rel="noopener" class="open-card-btn btn-steel">
+                  <span class="btn-icon">&#9654;</span> Game Eksternal 2
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Panel 3.5 — Kuis Interaktif (Embed) -->
+        <!-- 3.5 Kuis -->
         <div class="subbab-panel" id="sub-3-5">
           <div class="subbab">
             <h3>Kuis Bab 3: Adab Lingkungan</h3>
             <span class="konten-label quiz">Kuis</span>
-            <p class="sub-desc">Kerjakan kuis berikut untuk menguji pemahamanmu tentang adab lingkungan dan menyayangi makhluk hidup.</p>
-            <iframe 
-              class="embed-full" 
-              src="https://gemini.google.com/share/696cebc6298e" 
-              allowfullscreen>
-            </iframe>
+            <p class="sub-desc">Jawab pertanyaan berikut untuk menguji pemahamanmu tentang adab lingkungan.</p>
+
+            <div class="inline-interactive" id="kuisBab3" data-score="0">
+              
+              <div class="q-container" data-answer="B">
+                <div class="q-text">1. Apa hukum membuang sampah sembarangan menurut Islam?</div>
+                <button class="q-option" onclick="checkQuiz(this, 'kuisScoreBab3')">A. Mubah (Boleh)</button>
+                <button class="q-option" onclick="checkQuiz(this, 'kuisScoreBab3')">B. Haram/Dilarang</button>
+                <button class="q-option" onclick="checkQuiz(this, 'kuisScoreBab3')">C. Makruh</button>
+              </div>
+
+              <div class="q-container" data-answer="C">
+                <div class="q-text">2. Jika ada hewan yang mengganggu, bagaimana sikap Islami yang benar?</div>
+                <button class="q-option" onclick="checkQuiz(this, 'kuisScoreBab3')">A. Menyiksanya agar tidak kembali</button>
+                <button class="q-option" onclick="checkQuiz(this, 'kuisScoreBab3')">B. Membunuhnya langsung</button>
+                <button class="q-option" onclick="checkQuiz(this, 'kuisScoreBab3')">C. Mengusir dengan lembut tanpa menyakiti</button>
+              </div>
+
+              <div class="q-container" data-answer="A">
+                <div class="q-text">3. Menyiram tanaman termasuk bentuk...</div>
+                <button class="q-option" onclick="checkQuiz(this, 'kuisScoreBab3')">A. Sedekah dan syukur atas ciptaan Allah</button>
+                <button class="q-option" onclick="checkQuiz(this, 'kuisScoreBab3')">B. Pemborosan air</button>
+                <button class="q-option" onclick="checkQuiz(this, 'kuisScoreBab3')">C. Kegiatan yang tidak ada pahalanya</button>
+              </div>
+
+              <div class="score-display" id="kuisScoreBab3">
+                Skor Kuis Ini: <span class="score-val">0</span> / 3
+              </div>
+
+            </div>
+
+            <div class="open-card" style="margin-top: 25px;">
+              <p class="open-card-title">Kuis Tambahan</p>
+              <p class="open-card-desc">Klik tombol di bawah untuk mengerjakan kuis tambahan di tab baru.</p>
+              <div class="open-card-btns">
+                <a href="https://gemini.google.com/share/696cebc6298e" target="_blank" rel="noopener" class="open-card-btn btn-ungu">
+                  <span class="btn-icon">&#9999;</span> Kerjakan Kuis Eksternal
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Panel 3.6 -->
+        <!-- 3.6 Evaluasi -->
         <div class="subbab-panel" id="sub-3-6">
           <div class="subbab">
             <h3>3.6 Evaluasi Akhir</h3>
@@ -466,11 +573,15 @@
             <ul class="sub-list">
               <li>3.6.1 Checklist "Aksi Adabku Hari Ini" untuk mempraktikkan materi di kehidupan nyata.</li>
             </ul>
-            <p class="sub-desc">Isilah evaluasi berikut untuk mengukur pemahamanmu terhadap seluruh materi yang telah dipelajari.</p>
-            <div class="ext-grid">
-              <a href="https://canva.link/nqpv9yc4ya5t70m" target="_blank" rel="noopener" class="ext-btn danger">
-                <span class="ext-btn-icon">&#128203;</span> Evaluasi Akhir: Aksi Adabku
-              </a>
+            <p class="sub-desc">Isilah evaluasi berikut untuk mengukur pemahamanmu terhadap seluruh materi.</p>
+            <div class="open-card">
+              <p class="open-card-title">Evaluasi Akhir: Aksi Adabku</p>
+              <p class="open-card-desc">Klik tombol di bawah untuk mengisi evaluasi di tab baru.</p>
+              <div class="open-card-btns">
+                <a href="https://canva.link/nqpv9yc4ya5t70m" target="_blank" rel="noopener" class="open-card-btn btn-merah">
+                  <span class="btn-icon">&#128203;</span> Isi Evaluasi
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -481,6 +592,68 @@
 
     </main>
   </div>
+
+  <!-- Script JS untuk Game & Kuis Interaktif -->
+  <script>
+    // Logic Game Bab 3
+    function playGame(button, isCorrect) {
+      const parent = button.parentElement;
+      Array.from(parent.children).forEach(btn => {
+        btn.disabled = true;
+        btn.style.cursor = "not-allowed";
+      });
+
+      if(isCorrect) {
+        button.classList.add('correct');
+        button.insertAdjacentHTML('beforeend', ' ✅ <em>(Benar! Alangkah indahnya jika kita selalu menjaga kebersihan dan menyayangi makhluk hidup)</em>');
+      } else {
+        button.classList.add('wrong');
+        button.insertAdjacentHTML('beforeend', ' ❌ <em>(Kurang tepat. Seorang muslim harus menjaga lingkungan dan berlemah lembut)</em>');
+      }
+    }
+
+    // Logic Kuis Interaktif
+    function checkQuiz(button, scoreId) {
+      const container = button.closest('.q-container');
+      
+      if(container.classList.contains('answered')) return;
+      container.classList.add('answered');
+      
+      const correctAnswer = container.getAttribute('data-answer');
+      const allOptions = container.querySelectorAll('.q-option');
+      
+      allOptions.forEach(opt => {
+        opt.disabled = true;
+        opt.style.cursor = "not-allowed";
+      });
+
+      const parentInteractive = container.closest('.inline-interactive');
+      let currentScore = parseInt(parentInteractive.getAttribute('data-score') || '0');
+
+      if(button.innerText.startsWith(correctAnswer)) {
+        button.classList.add('selected-correct');
+        currentScore++;
+      } else {
+        button.classList.add('selected-wrong');
+        allOptions.forEach(opt => {
+          if(opt.innerText.startsWith(correctAnswer)) {
+            opt.classList.add('selected-correct');
+          }
+        });
+      }
+
+      parentInteractive.setAttribute('data-score', currentScore);
+
+      const totalQuestions = parentInteractive.querySelectorAll('.q-container').length;
+      const answeredQuestions = parentInteractive.querySelectorAll('.q-container.answered').length;
+      
+      if(answeredQuestions === totalQuestions) {
+        const scoreDisplay = document.getElementById(scoreId);
+        scoreDisplay.querySelector('.score-val').innerText = currentScore;
+        scoreDisplay.style.display = 'block';
+      }
+    }
+  </script>
 
   <script src="script.js"></script>
 </body>
