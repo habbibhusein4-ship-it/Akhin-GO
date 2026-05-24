@@ -648,3 +648,17 @@ ul{list-style:none}
 /* Responsive belajar */
 @media(max-width:768px){
   .belajar-sidebar-btn{display:flex}
+  .belajar-sidebar{
+    position:fixed;top:56px;left:-270px;width:270px;
+    height:calc(100vh - 56px);z-index:99;
+    transition:left var(--transisi);overflow-y:auto;
+  }
+  .belajar-sidebar.active{left:0;box-shadow:4px 0 20px rgba(0,0,0,0.3)}
+  .belajar-main{padding:20px 16px}
+  .bab-head h2{font-size:1.25rem}
+  .subbab{padding:16px}
+  .subbab h3{font-size:.98rem}
+  .bab-img img{height:170px}
+  .ext-grid{flex-direction:column}
+  .ext-btn{width:100%;justify-content:center}
+}
